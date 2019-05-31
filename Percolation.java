@@ -40,6 +40,22 @@ public class Percolation {
         }
     }
 
+    public void open(int row, int col) {
+        if (!validIndices(row, col)) {
+            throw new IllegalArgumentException("Invalid indices, row: " + row + ", col: " + col);
+        }
+
+        if (!isOpen(row,col)) {
+            grid[row][col] = 1;
+            int openedSiteIndex = xyTo1D(row, col);
+
+            if (validSiteForConnection(row, col - 1)) connectSites(openedSiteIndex, xyTo1D(row, col - 1));
+            if (validSiteForConnection(row, col + 1)) connectSites(openedSiteIndex, xyTo1D(row, col + 1));
+            if (validSiteForConnection(row - 1, col)) connectSites(openedSiteIndex, xyTo1D(row - 1, col));
+            if (validSiteForConnection(row + 1, col)) connectSites(openedSiteIndex, xyTo1D(row + 1, col));
+        }
+    }
+
     public boolean isOpen(int row, int col) {
         return grid[row][col] == 1;
     }
@@ -49,7 +65,7 @@ public class Percolation {
     }
 
     private boolean validIndices(int row, int col) {
-        return row < 1 || row > N || col < 1 || col > N;
+        return row >= 1 && row <= N && col >= 1 && col <= N;
     }
 
     private void printPercolationMatrix() {
@@ -59,6 +75,14 @@ public class Percolation {
             }
             System.out.println("\n");
         }
+    }
+
+    private boolean validSiteForConnection(int row, int col) {
+        return validIndices(row, col) && isOpen(row, col);
+    }
+
+    private void connectSites(int siteIndexP, int siteIndexQ) {
+        wquUF.union(siteIndexP, siteIndexQ);
     }
 
     public static void main(String[] args) {
@@ -75,5 +99,43 @@ public class Percolation {
 
         xyToId = perc.xyTo1D(4,4);
         System.out.println("Row 2 and col 2 are position "+xyToId+" in array.");
+
+        System.out.println("Is row 2 and col 1 open?: " + perc.isOpen(2, 1));
+        System.out.println("Is row 1 and col 2 open?: " + perc.isOpen(1, 2));
+        System.out.println("Is row 2 and col 3 open?: " + perc.isOpen(2, 3));
+        System.out.println("Is row 3 and col 2 open?: " + perc.isOpen(3, 2));
+
+        System.out.println("Is row 2 and col 2 open?: " + perc.isOpen(2, 2));
+
+        System.out.println("Opening row 2 and col 1...");
+        perc.open(2,1);
+
+        System.out.println("Opening row 1 and col 2...");
+        perc.open(1,2);
+
+        System.out.println("Opening row 2 and col 3...");
+        perc.open(2,3);
+
+        System.out.println("Opening row 3 and col 2...");
+        perc.open(3,2);
+
+        System.out.println("Is row 2 and col 1 open?: " + perc.isOpen(2, 1));
+        System.out.println("Is row 1 and col 2 open?: " + perc.isOpen(1, 2));
+        System.out.println("Is row 2 and col 3 open?: " + perc.isOpen(2, 3));
+        System.out.println("Is row 3 and col 2 open?: " + perc.isOpen(3, 2));
+
+        perc.printPercolationMatrix();
+
+        System.out.println("Opening row 2 and col 2...");
+        perc.open(2,2);
+
+        perc.printPercolationMatrix();
+
+        System.out.println("Is (2,1) connected to (2,2)?: " + perc.wquUF.connected(perc.xyTo1D(2, 1), perc.xyTo1D(2,2)));
+        System.out.println("Is (1,2) connected to (2,2)?: " + perc.wquUF.connected(perc.xyTo1D(1, 2), perc.xyTo1D(2,2)));
+        System.out.println("Is (2,3) connected to (2,2)?: " + perc.wquUF.connected(perc.xyTo1D(2, 3), perc.xyTo1D(2,2)));
+        System.out.println("Is (3,2) connected to (2,2)?: " + perc.wquUF.connected(perc.xyTo1D(3, 2), perc.xyTo1D(2,2)));
+        System.out.println("Is (3,2) connected to (1,2)?: " + perc.wquUF.connected(perc.xyTo1D(3, 2), perc.xyTo1D(1,2)));
+        System.out.println("Is (2,1) connected to (2,3)?: " + perc.wquUF.connected(perc.xyTo1D(2, 1), perc.xyTo1D(2,3)));
     }
 }
