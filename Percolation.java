@@ -12,29 +12,25 @@ public class Percolation {
     private int numberOfOpenSites = 0;
     private WeightedQuickUnionUF wquUF;
 
-//    public     int numberOfOpenSites()       // number of open sites
-//    public boolean percolates()              // does the system percolate?
+    private int sitesNumber;
+    private int topVirtualSiteIndex;
+    private int bottomVirtualSiteIndex;
 
     public Percolation(int n) {
         if (n <= 0) throw new IllegalArgumentException("grid size: n <= 0");
 
-        // n * n sites plus two additional sites for top and bottom virtual sites
-        int sitesNumber = n * n;
-        int topVirtualSiteIndex = sitesNumber;
-        int bottomVirtualSiteIndex = sitesNumber+1;
-
         N = n;
         grid = new int[n+1][n+1];
+        sitesNumber = N * N;
+        topVirtualSiteIndex = sitesNumber;
+        bottomVirtualSiteIndex = sitesNumber+1;
+
+        // n * n sites plus two additional sites for top and bottom virtual sites
         wquUF = new WeightedQuickUnionUF(sitesNumber + 2);
 
         for (int i = 1; i <= n; i++) {
             for (int j = 1; j <= n; j++) {
                 grid[i][j] = 0;
-
-                // In the cases where i == 1 || i == n, we want to connect these
-                // sites with the top and bottom virtual components.
-                if (i == 1) { wquUF.union(xyTo1D(i,j), topVirtualSiteIndex); }
-                else if (i == n) { wquUF.union(xyTo1D(i,j), bottomVirtualSiteIndex); }
             }
         }
     }
@@ -47,10 +43,17 @@ public class Percolation {
             numberOfOpenSites++;
             int openedSiteIndex = xyTo1D(row, col);
 
+            // Connect with neighbors
             if (validSiteForConnection(row, col - 1)) connectSites(openedSiteIndex, xyTo1D(row, col - 1));
             if (validSiteForConnection(row, col + 1)) connectSites(openedSiteIndex, xyTo1D(row, col + 1));
             if (validSiteForConnection(row - 1, col)) connectSites(openedSiteIndex, xyTo1D(row - 1, col));
             if (validSiteForConnection(row + 1, col)) connectSites(openedSiteIndex, xyTo1D(row + 1, col));
+
+            // Connect with top and bottom virtual sites
+            // In the cases where i == 1 || i == n, we want to connect these
+            // sites with the top and bottom virtual components.
+            if (row == 1) wquUF.union(xyTo1D(row, col), topVirtualSiteIndex);
+            if (row == N) wquUF.union(xyTo1D(row, col), bottomVirtualSiteIndex);
         }
     }
 
@@ -70,8 +73,12 @@ public class Percolation {
         return numberOfOpenSites;
     }
 
+    public boolean percolates() {
+        return wquUF.connected((N * N), (N * N) + 1);
+    }
+
     private int xyTo1D(int row, int col) {
-        return (row - 1) * N + col;
+        return (row - 1) * N + (col - 1);
     }
 
     private boolean validIndices(int row, int col) {
@@ -163,5 +170,46 @@ public class Percolation {
         System.out.println("Is (3,2) connected to (2,2)?: " + perc.wquUF.connected(perc.xyTo1D(3, 2), perc.xyTo1D(2,2)));
         System.out.println("Is (3,2) connected to (1,2)?: " + perc.wquUF.connected(perc.xyTo1D(3, 2), perc.xyTo1D(1,2)));
         System.out.println("Is (2,1) connected to (2,3)?: " + perc.wquUF.connected(perc.xyTo1D(2, 1), perc.xyTo1D(2,3)));
+        System.out.println("Is virtual top connected to (1,1)?: " + perc.wquUF.connected(16, 0));
+        System.out.println("Is virtual top connected to (1,2)?: " + perc.wquUF.connected(16, 1));
+        System.out.println("Is virtual top connected to (1,3)?: " + perc.wquUF.connected(16, 2));
+        System.out.println("Is virtual top connected to (1,4)?: " + perc.wquUF.connected(16, 3));
+
+        System.out.println("Is virtual bottom connected to (4,1)?: " + perc.wquUF.connected(17, 13));
+        System.out.println("Is virtual bottom connected to (4,2)?: " + perc.wquUF.connected(17, 14));
+        System.out.println("Is virtual bottom connected to (4,3)?: " + perc.wquUF.connected(17, 15));
+        System.out.println("Is virtual bottom connected to (4,4)?: " + perc.wquUF.connected(17, 16));
+
+        System.out.println("Opening row 4 and col 3...");
+        perc.open(4,3);
+        System.out.println("Number of open sites: " + perc.numberOfOpenSites());
+
+        perc.printPercolationMatrix();
+
+        System.out.println(perc.percolates());
+
+        System.out.println("Opening row 4 and col 4...");
+        perc.open(4,4);
+        System.out.println("Number of open sites: " + perc.numberOfOpenSites());
+
+        perc.printPercolationMatrix();
+
+        System.out.println(perc.percolates());
+
+        System.out.println("Opening row 4 and col 1...");
+        perc.open(4,1);
+        System.out.println("Number of open sites: " + perc.numberOfOpenSites());
+
+        perc.printPercolationMatrix();
+
+        System.out.println(perc.percolates());
+
+        System.out.println("Opening row 4 and col 2...");
+        perc.open(4,2);
+        System.out.println("Number of open sites: " + perc.numberOfOpenSites());
+
+        perc.printPercolationMatrix();
+
+        System.out.println(perc.percolates());
     }
 }
