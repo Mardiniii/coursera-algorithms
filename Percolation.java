@@ -9,9 +9,9 @@ import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 public class Percolation {
     private int N;
     private int [][] grid;
+    private int numberOfOpenSites = 0;
     private WeightedQuickUnionUF wquUF;
 
-//    public boolean isFull(int row, int col)  // is site (row, col) full?
 //    public     int numberOfOpenSites()       // number of open sites
 //    public boolean percolates()              // does the system percolate?
 
@@ -44,6 +44,7 @@ public class Percolation {
 
         if (!isOpen(row,col)) {
             grid[row][col] = 1;
+            numberOfOpenSites++;
             int openedSiteIndex = xyTo1D(row, col);
 
             if (validSiteForConnection(row, col - 1)) connectSites(openedSiteIndex, xyTo1D(row, col - 1));
@@ -63,6 +64,10 @@ public class Percolation {
         checkIndices(row, col);
 
         return grid[row][col] == 0;
+    }
+
+    public int numberOfOpenSites() {
+        return numberOfOpenSites;
     }
 
     private int xyTo1D(int row, int col) {
@@ -115,20 +120,29 @@ public class Percolation {
         System.out.println("Is row 1 and col 2 open?: " + perc.isOpen(1, 2));
         System.out.println("Is row 2 and col 3 open?: " + perc.isOpen(2, 3));
         System.out.println("Is row 3 and col 2 open?: " + perc.isOpen(3, 2));
-
         System.out.println("Is row 2 and col 2 open?: " + perc.isOpen(2, 2));
+        System.out.println("Number of open sites: " + perc.numberOfOpenSites());
+
 
         System.out.println("Opening row 2 and col 1...");
         perc.open(2,1);
+        System.out.println("Number of open sites: " + perc.numberOfOpenSites());
+
 
         System.out.println("Opening row 1 and col 2...");
         perc.open(1,2);
+        System.out.println("Number of open sites: " + perc.numberOfOpenSites());
+
 
         System.out.println("Opening row 2 and col 3...");
         perc.open(2,3);
+        System.out.println("Number of open sites: " + perc.numberOfOpenSites());
+
 
         System.out.println("Opening row 3 and col 2...");
         perc.open(3,2);
+        System.out.println("Number of open sites: " + perc.numberOfOpenSites());
+
 
         System.out.println("Is row 2 and col 1 open?: " + perc.isOpen(2, 1));
         System.out.println("Is row 1 and col 2 open?: " + perc.isOpen(1, 2));
@@ -139,6 +153,7 @@ public class Percolation {
 
         System.out.println("Opening row 2 and col 2...");
         perc.open(2,2);
+        System.out.println("Number of open sites: " + perc.numberOfOpenSites());
 
         perc.printPercolationMatrix();
 
@@ -148,7 +163,5 @@ public class Percolation {
         System.out.println("Is (3,2) connected to (2,2)?: " + perc.wquUF.connected(perc.xyTo1D(3, 2), perc.xyTo1D(2,2)));
         System.out.println("Is (3,2) connected to (1,2)?: " + perc.wquUF.connected(perc.xyTo1D(3, 2), perc.xyTo1D(1,2)));
         System.out.println("Is (2,1) connected to (2,3)?: " + perc.wquUF.connected(perc.xyTo1D(2, 1), perc.xyTo1D(2,3)));
-
-        System.out.println("Is row 3 and col 2 open?: " + perc.isOpen(17, 2));
     }
 }
