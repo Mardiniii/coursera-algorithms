@@ -11,7 +11,6 @@ public class Percolation {
     private int [][] grid;
     private WeightedQuickUnionUF wquUF;
 
-//    public    void open(int row, int col);    // open site (row, col) if it is not open already
 //    public boolean isFull(int row, int col)  // is site (row, col) full?
 //    public     int numberOfOpenSites()       // number of open sites
 //    public boolean percolates()              // does the system percolate?
@@ -41,9 +40,7 @@ public class Percolation {
     }
 
     public void open(int row, int col) {
-        if (!validIndices(row, col)) {
-            throw new IllegalArgumentException("Invalid indices, row: " + row + ", col: " + col);
-        }
+        checkIndices(row, col);
 
         if (!isOpen(row,col)) {
             grid[row][col] = 1;
@@ -57,7 +54,15 @@ public class Percolation {
     }
 
     public boolean isOpen(int row, int col) {
+        checkIndices(row, col);
+
         return grid[row][col] == 1;
+    }
+
+    public boolean isFull(int row, int col) {
+        checkIndices(row, col);
+
+        return grid[row][col] == 0;
     }
 
     private int xyTo1D(int row, int col) {
@@ -66,6 +71,12 @@ public class Percolation {
 
     private boolean validIndices(int row, int col) {
         return row >= 1 && row <= N && col >= 1 && col <= N;
+    }
+
+    private void checkIndices(int row, int col) {
+        if (!validIndices(row, col)) {
+            throw new IllegalArgumentException("Invalid indices, row: " + row + ", col: " + col);
+        }
     }
 
     private void printPercolationMatrix() {
@@ -137,5 +148,7 @@ public class Percolation {
         System.out.println("Is (3,2) connected to (2,2)?: " + perc.wquUF.connected(perc.xyTo1D(3, 2), perc.xyTo1D(2,2)));
         System.out.println("Is (3,2) connected to (1,2)?: " + perc.wquUF.connected(perc.xyTo1D(3, 2), perc.xyTo1D(1,2)));
         System.out.println("Is (2,1) connected to (2,3)?: " + perc.wquUF.connected(perc.xyTo1D(2, 1), perc.xyTo1D(2,3)));
+
+        System.out.println("Is row 3 and col 2 open?: " + perc.isOpen(17, 2));
     }
 }
