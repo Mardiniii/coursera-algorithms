@@ -11,8 +11,11 @@ import edu.princeton.cs.algs4.StdRandom;
 import edu.princeton.cs.algs4.StdStats;
 
 public class PercolationStats {
+    static final double CONFIDENCE_95 = 1.96;
+
     private final int gridSize;                   // Grid size
     private final int trials;              // Number of experiments
+    private double sttdev;
     private final double[] experimentResults; // Number of open sites when grid percolated
 
     public PercolationStats(int n, int numberOfTrials) {
@@ -33,12 +36,11 @@ public class PercolationStats {
 
                 if (!perc.isOpen(row, col)) {
                     perc.open(row, col);
-                    if (perc.percolates()) {
-                        double treshold = (double) perc.numberOfOpenSites() / numberOfSites;
-                        experimentResults[i] = treshold;
-                    }
                 }
             }
+
+            double treshold = (double) perc.numberOfOpenSites() / numberOfSites;
+            experimentResults[i] = treshold;
         }
     }
 
@@ -49,19 +51,21 @@ public class PercolationStats {
     public double stddev() {
         if (trials == 1) return Double.NaN;
 
-        return StdStats.stddev(experimentResults);
+        if (sttdev == 0.0) sttdev = StdStats.stddev(experimentResults);
+
+        return sttdev;
     }
 
     public double confidenceLo() {
-        return mean() - ((1.96 * stddev()) / Math.sqrt(trials));
+        return mean() - ((CONFIDENCE_95 * stddev()) / Math.sqrt(trials));
     }
 
     public double confidenceHi() {
-        return mean() + ((1.96 * stddev()) / Math.sqrt(trials));
+        return mean() + ((CONFIDENCE_95 * stddev()) / Math.sqrt(trials));
     }
 
     private void validInput(int n, int numberOfTrials) {
-        if (n < 1 && numberOfTrials < 1) {
+        if (n < 1 || numberOfTrials < 1) {
             throw new IllegalArgumentException("n or trials are less than one. n: " + n + ", trials: " + numberOfTrials);
         }
     }
