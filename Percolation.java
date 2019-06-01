@@ -1,21 +1,27 @@
 /* *****************************************************************************
  *  Name: Sebastian Zapata Mardini
  *  Date: 05/30/2019
- *  Description:
+ *  Description: Percolation class in an abstraction to execute different operations
+ *  between a given set of nodes. It also determines if a system percolates or not.
  **************************************************************************** */
 
 import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 
 public class Percolation {
-    private int N;
-    private int [][] grid;
-    private int numberOfOpenSites = 0;
-    private WeightedQuickUnionUF wquUF;
+    private int N;                      // Grid size
+    private int [][] grid;              // Grid data structure
+    private int numberOfOpenSites = 0;  // Number of opened sites
+    private WeightedQuickUnionUF wquUF; // WeightedQuickUnionUF data structure
 
-    private int sitesNumber;
-    private int topVirtualSiteIndex;
-    private int bottomVirtualSiteIndex;
+    private int sitesNumber;            // Number of sites
+    private int topVirtualSiteIndex;    // Top virtual site
+    private int bottomVirtualSiteIndex; // Bottom virtual site
 
+    /*
+    This constructur creates a int[N][N] with all the values set to 0 by
+    default. It also creates a `WeightedQuickUnionUF` instance with two more
+    sites for the top and bottom virtual nodes.
+     */
     public Percolation(int n) {
         if (n <= 0) throw new IllegalArgumentException("grid size: n <= 0");
 
@@ -35,6 +41,12 @@ public class Percolation {
         }
     }
 
+    /*
+    This method opens a new site if it is not open yet. It also creates the new
+    connections with the open adjacents sites. In the case the (row, col) are
+    located in the top or bottom rows it enables the conection with the virtual
+    sites
+     */
     public void open(int row, int col) {
         checkIndices(row, col);
 
@@ -57,40 +69,66 @@ public class Percolation {
         }
     }
 
+    /*
+    This method returns a boolean equals to true if the site is open.
+     */
     public boolean isOpen(int row, int col) {
         checkIndices(row, col);
 
         return grid[row][col] == 1;
     }
 
+    /*
+    This method returns a boolean equals to true if the site is closed.
+     */
     public boolean isFull(int row, int col) {
         checkIndices(row, col);
 
         return grid[row][col] == 0;
     }
 
+    /*
+    This method returns the number of open sites in the grid.
+     */
     public int numberOfOpenSites() {
         return numberOfOpenSites;
     }
 
+    /*
+    This method returns true if the top virtual site is connected to the top
+    bottom site.
+     */
     public boolean percolates() {
         return wquUF.connected((N * N), (N * N) + 1);
     }
 
+    /*
+    This method converts 2D coordinates from the grid to an 1D coordinate in the
+    WeightedQuickUnionUF data structure.
+     */
     private int xyTo1D(int row, int col) {
         return (row - 1) * N + (col - 1);
     }
 
+    /*
+    This method returns true if row and col are valid indices.
+     */
     private boolean validIndices(int row, int col) {
         return row >= 1 && row <= N && col >= 1 && col <= N;
     }
 
+    /*
+    This method throws an exception if the row and col values are not valid.
+     */
     private void checkIndices(int row, int col) {
         if (!validIndices(row, col)) {
             throw new IllegalArgumentException("Invalid indices, row: " + row + ", col: " + col);
         }
     }
 
+    /*
+    This method prints the percolation grid.
+     */
     private void printPercolationMatrix() {
         for (int i = 1; i <= N; i++) {
             for (int j = 1; j <= N; j++) {
@@ -100,10 +138,18 @@ public class Percolation {
         }
     }
 
+    /*
+    This method returns true if the row and col values are valid indices and the
+    site at the (row, col) location is open.
+     */
     private boolean validSiteForConnection(int row, int col) {
         return validIndices(row, col) && isOpen(row, col);
     }
 
+    /*
+    This method connect two sites. It delegates the operation to the
+    `WeightedQuickUnionUF#union` method.
+     */
     private void connectSites(int siteIndexP, int siteIndexQ) {
         wquUF.union(siteIndexP, siteIndexQ);
     }
