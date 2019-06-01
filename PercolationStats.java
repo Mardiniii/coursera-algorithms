@@ -8,6 +8,9 @@
  **************************************************************************** */
 
 public class PercolationStats {
+    private int N;                   // Grid size
+    private int trials;              // Number of experiments
+    private int[] experimentResults; // Number of open sites when grid percolated
 
     public static void main(String[] args) {
 
