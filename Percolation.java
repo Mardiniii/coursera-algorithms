@@ -9,11 +9,11 @@ import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 
 public class Percolation {
     private final int gridSize;               // Grid size
-    private final int [][] grid;              // Grid data structure
+    private final boolean [][] grid;              // Grid data structure
     private final int sitesNumber;
     private int numberOfOpenSites = 0;  // Number of opened sites
-    private WeightedQuickUnionUF wquUF; // WeightedQuickUnionUF data structure
-    private WeightedQuickUnionUF wquUFSecondary; // WeightedQuickUnionUF with one virtual site
+    private final WeightedQuickUnionUF wquUF; // WeightedQuickUnionUF data structure
+    private final WeightedQuickUnionUF wquUFSecondary; // WeightedQuickUnionUF with one virtual site
 
     private final int topVirtualSiteIndex;    // Top virtual site
     private final int bottomVirtualSiteIndex; // Bottom virtual site
@@ -29,7 +29,7 @@ public class Percolation {
 
         gridSize = n;
         sitesNumber = n * n;
-        grid = new int[n+1][n+1];
+        grid = new boolean[n+1][n+1];
         topVirtualSiteIndex = sitesNumber;
         bottomVirtualSiteIndex = sitesNumber+1;
 
@@ -39,7 +39,7 @@ public class Percolation {
 
         for (int i = 1; i <= n; i++) {
             for (int j = 1; j <= n; j++) {
-                grid[i][j] = 0;
+                grid[i][j] = false;
             }
         }
     }
@@ -54,7 +54,7 @@ public class Percolation {
         checkIndices(row, col);
 
         if (!isOpen(row, col)) {
-            grid[row][col] = 1;
+            grid[row][col] = true;
             numberOfOpenSites++;
             int openedSiteIndex = xyTo1D(row, col);
 
@@ -81,7 +81,7 @@ public class Percolation {
     public boolean isOpen(int row, int col) {
         checkIndices(row, col);
 
-        return grid[row][col] == 1;
+        return grid[row][col] == true;
     }
 
     /*
