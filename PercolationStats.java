@@ -47,6 +47,8 @@ public class PercolationStats {
     }
 
     public double stddev() {
+        if (trials == 1) return Double.NaN;
+
         return StdStats.stddev(experimentResults);
     }
 
