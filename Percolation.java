@@ -83,8 +83,9 @@ public class Percolation {
      */
     public boolean isFull(int row, int col) {
         checkIndices(row, col);
+        int siteIndex = xyTo1D(row, col);
 
-        return grid[row][col] == 0;
+        return wquUF.connected(siteIndex, (N * N)); // Is the site connected to top?
     }
 
     /*
