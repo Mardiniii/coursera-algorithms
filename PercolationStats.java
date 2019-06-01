@@ -43,6 +43,10 @@ public class PercolationStats {
         return StdStats.mean(experimentResults);
     }
 
+    public double stddev() {
+        return StdStats.stddev(experimentResults);
+    }
+
     private void validInput(int n, int numberOfTrials) {
         if (n < 1 && numberOfTrials < 1) {
             throw new IllegalArgumentException("n or trials are less than one. n: " + n + ", trials: " + numberOfTrials);
@@ -58,5 +62,6 @@ public class PercolationStats {
 
         System.out.println(Arrays.toString(stats.experimentResults));
         System.out.println("Mean: " + stats.mean());
+        System.out.println("Sample Standard Deviation: " + stats.stddev());
     }
 }
