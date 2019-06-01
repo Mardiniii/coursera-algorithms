@@ -18,6 +18,10 @@ public class PercolationStats {
         }
     }
 
+    private int randomNumber() {
+        return StdRandom.uniform(N) + 1;
+    }
+
     public static void main(String[] args) {
 
     }
