@@ -8,6 +8,7 @@
  **************************************************************************** */
 
 import edu.princeton.cs.algs4.StdRandom;
+import edu.princeton.cs.algs4.StdStats;
 
 import java.util.Arrays;
 
@@ -38,6 +39,10 @@ public class PercolationStats {
         }
     }
 
+    public double mean() {
+        return StdStats.mean(experimentResults);
+    }
+
     private void validInput(int n, int numberOfTrials) {
         if (n < 1 && numberOfTrials < 1) {
             throw new IllegalArgumentException("n or trials are less than one. n: " + n + ", trials: " + numberOfTrials);
@@ -49,8 +54,9 @@ public class PercolationStats {
     }
 
     public static void main(String[] args) {
-        PercolationStats stats = new PercolationStats(10, 1000);
+        PercolationStats stats = new PercolationStats(15, 5);
 
         System.out.println(Arrays.toString(stats.experimentResults));
+        System.out.println("Mean: " + stats.mean());
     }
 }
