@@ -12,6 +12,12 @@ public class PercolationStats {
     private int trials;              // Number of experiments
     private int[] experimentResults; // Number of open sites when grid percolated
 
+    private void validInput(int n, int numberOfTrials) {
+        if (n < 1 && numberOfTrials < 1) {
+            throw new IllegalArgumentException("n or trials are less than one. n: " + n + ", trials: " + numberOfTrials);
+        }
+    }
+
     public static void main(String[] args) {
 
     }
