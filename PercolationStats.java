@@ -10,19 +10,19 @@
 import edu.princeton.cs.algs4.StdRandom;
 import edu.princeton.cs.algs4.StdStats;
 
-import java.util.Arrays;
-
 public class PercolationStats {
     private int N;                   // Grid size
     private int trials;              // Number of experiments
-    private int[] experimentResults; // Number of open sites when grid percolated
+    private double[] experimentResults; // Number of open sites when grid percolated
 
     public PercolationStats(int n, int numberOfTrials) {
         validInput(n, numberOfTrials);
 
         N = n;
         trials = numberOfTrials;
-        experimentResults = new int[trials];
+        experimentResults = new double[trials];
+
+        int numberOfSites = N * N;
 
         for(int i = 0; i < trials; i++) {
             Percolation perc = new Percolation(n);
@@ -33,7 +33,10 @@ public class PercolationStats {
 
                 if (!perc.isOpen(row, col)) {
                     perc.open(row, col);
-                    if (perc.percolates()) experimentResults[i] = perc.numberOfOpenSites();
+                    if (perc.percolates()) {
+                        double treshold = (double)perc.numberOfOpenSites() / numberOfSites;
+                        experimentResults[i] = treshold;
+                    }
                 }
             }
         }
@@ -66,12 +69,13 @@ public class PercolationStats {
     }
 
     public static void main(String[] args) {
-        PercolationStats stats = new PercolationStats(15, 5);
+        int n = Integer.parseInt(args[0]);
+        int trials = Integer.parseInt(args[1]);
 
-        System.out.println(Arrays.toString(stats.experimentResults));
-        System.out.println("Mean: " + stats.mean());
-        System.out.println("Sample Standard Deviation: " + stats.stddev());
-        System.out.println("Low endpoint of 95% confidence interval: " + stats.confidenceLo());
-        System.out.println("High endpoint of 95% confidence interval: " + stats.confidenceHi());
+        PercolationStats stats = new PercolationStats(n, trials);
+
+        System.out.println("mean                    = " + stats.mean());
+        System.out.println("stddev:                 = " + stats.stddev());
+        System.out.println("95% confidence interval = [" + stats.confidenceLo() + ", " + stats.confidenceHi() + "]");
     }
 }
