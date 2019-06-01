@@ -12,6 +12,7 @@ public class Percolation {
     private int [][] grid;              // Grid data structure
     private int numberOfOpenSites = 0;  // Number of opened sites
     private WeightedQuickUnionUF wquUF; // WeightedQuickUnionUF data structure
+    private WeightedQuickUnionUF wquUFSecondary; // WeightedQuickUnionUF with one virtual site
 
     private int sitesNumber;            // Number of sites
     private int topVirtualSiteIndex;    // Top virtual site
@@ -33,6 +34,7 @@ public class Percolation {
 
         // n * n sites plus two additional sites for top and bottom virtual sites
         wquUF = new WeightedQuickUnionUF(sitesNumber + 2);
+        wquUFSecondary = new WeightedQuickUnionUF(sitesNumber + 2);
 
         for (int i = 1; i <= n; i++) {
             for (int j = 1; j <= n; j++) {
@@ -64,7 +66,10 @@ public class Percolation {
             // Connect with top and bottom virtual sites
             // In the cases where i == 1 || i == n, we want to connect these
             // sites with the top and bottom virtual components.
-            if (row == 1) wquUF.union(xyTo1D(row, col), topVirtualSiteIndex);
+            if (row == 1) {
+                wquUF.union(xyTo1D(row, col), topVirtualSiteIndex);
+                wquUFSecondary.union(xyTo1D(row, col), topVirtualSiteIndex);
+            }
             if (row == N) wquUF.union(xyTo1D(row, col), bottomVirtualSiteIndex);
         }
     }
@@ -85,7 +90,7 @@ public class Percolation {
         checkIndices(row, col);
         int siteIndex = xyTo1D(row, col);
 
-        return wquUF.connected(siteIndex, (N * N)); // Is the site connected to top?
+        return wquUFSecondary.connected(siteIndex, (N * N)); // Is the site connected to top?
     }
 
     /*
@@ -153,6 +158,7 @@ public class Percolation {
      */
     private void connectSites(int siteIndexP, int siteIndexQ) {
         wquUF.union(siteIndexP, siteIndexQ);
+        wquUFSecondary.union(siteIndexP, siteIndexQ);
     }
 
     public static void main(String[] args) {
