@@ -11,20 +11,20 @@ import edu.princeton.cs.algs4.StdRandom;
 import edu.princeton.cs.algs4.StdStats;
 
 public class PercolationStats {
-    private int N;                   // Grid size
-    private int trials;              // Number of experiments
-    private double[] experimentResults; // Number of open sites when grid percolated
+    private final int gridSize;                   // Grid size
+    private final int trials;              // Number of experiments
+    private final double[] experimentResults; // Number of open sites when grid percolated
 
     public PercolationStats(int n, int numberOfTrials) {
         validInput(n, numberOfTrials);
 
-        N = n;
+        gridSize = n;
         trials = numberOfTrials;
         experimentResults = new double[trials];
 
-        int numberOfSites = N * N;
+        int numberOfSites = gridSize * gridSize;
 
-        for(int i = 0; i < trials; i++) {
+        for (int i = 0; i < trials; i++) {
             Percolation perc = new Percolation(n);
 
             while (!perc.percolates()) {
@@ -34,7 +34,7 @@ public class PercolationStats {
                 if (!perc.isOpen(row, col)) {
                     perc.open(row, col);
                     if (perc.percolates()) {
-                        double treshold = (double)perc.numberOfOpenSites() / numberOfSites;
+                        double treshold = (double) perc.numberOfOpenSites() / numberOfSites;
                         experimentResults[i] = treshold;
                     }
                 }
@@ -67,7 +67,7 @@ public class PercolationStats {
     }
 
     private int randomNumber() {
-        return StdRandom.uniform(N) + 1;
+        return StdRandom.uniform(gridSize) + 1;
     }
 
     public static void main(String[] args) {
