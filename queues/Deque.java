@@ -7,6 +7,15 @@
  **************************************************************************** */
 
 public class Deque<Item> implements Iterable<Item> {
+    private Node first;
+    private Node last;
+    private int n;
+
+    // Nested class to define nodes
+    private class Node {
+        Item item;
+        Node next;
+    }
 
     public static void main(String[] args) {
 
