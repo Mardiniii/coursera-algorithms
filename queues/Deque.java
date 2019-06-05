@@ -6,6 +6,9 @@
  *  structure.
  **************************************************************************** */
 
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
 public class Deque<Item> implements Iterable<Item> {
     private Node first;
     private Node last;
@@ -94,6 +97,33 @@ public class Deque<Item> implements Iterable<Item> {
         last = successor;
 
         return target.item;
+    }
+
+    public Iterator<Item> iterator() {
+        return new ListIterator();
+    }
+
+    private class ListIterator implements Iterator<Item> {
+        private Node current = first;
+
+        public boolean hasNext() {
+            return current != null;
+        }
+
+        public void remove() {
+            throw new UnsupportedOperationException("This method is not implemented.");
+        }
+
+        public Item next() {
+            if (current == null) {
+                throw new NoSuchElementException("No more items to be returned.");
+            }
+
+            Item item = current.item;
+            current = current.next;
+
+            return item;
+        }
     }
 
     public static void main(String[] args) {
