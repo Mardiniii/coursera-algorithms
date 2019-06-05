@@ -11,6 +11,12 @@ public class Deque<Item> implements Iterable<Item> {
     private Node last;
     private int n;
 
+    // Returns `true if the Deque does not have any nodes otherwise this method
+    // returns `false`.
+    public boolean isEmpty() {
+        return n == 0;
+    }
+
     // Nested class to define nodes
     private class Node {
         Item item;
