@@ -141,6 +141,55 @@ public class Deque<Item> implements Iterable<Item> {
     }
 
     public static void main(String[] args) {
+        Deque<Integer> deque = new Deque<Integer>();
 
+        deque.addLast(1);
+        deque.addLast(2);
+        deque.addLast(3);
+        deque.addLast(4);
+        deque.addLast(5);
+        deque.addFirst(1);
+        deque.addFirst(2);
+        deque.addFirst(3);
+        deque.addFirst(4);
+        deque.addFirst(5);
+
+        Iterator<Integer> i = deque.iterator();
+
+        System.out.println("Deque size: " + deque.size());
+
+        while (i.hasNext()) {
+            int n = i.next();
+            System.out.println(n);
+        }
+
+        // Remove 5s
+        deque.removeFirst();
+        deque.removeLast();
+        System.out.println("Deque size: " + deque.size());
+
+        // Remove 4s
+        deque.removeFirst();
+        deque.removeLast();
+        System.out.println("Deque size: " + deque.size());
+
+        // Remove 3s
+        deque.removeFirst();
+        deque.removeLast();
+        System.out.println("Deque size: " + deque.size());
+
+        // Remove 2s
+        deque.removeFirst();
+        deque.removeLast();
+        System.out.println("Deque size: " + deque.size());
+
+        // Remove 1s
+        deque.removeFirst();
+        deque.removeLast();
+        System.out.println("Deque size: " + deque.size());
+
+        // Raise and exception because the Deque is empty
+        deque.removeFirst();
+        deque.removeLast();
     }
 }
