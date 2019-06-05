@@ -45,6 +45,22 @@ public class Deque<Item> implements Iterable<Item> {
         }
     }
 
+    // Add the item to the end of the Deque
+    public void addLast(Item item) {
+        Node oldLast = last;
+        Node newLast = new Node();
+        newLast.item = item;
+        newLast.next = null;
+
+        if (isEmpty()) {
+            newLast.previous = null;
+            first = newLast;
+            last = newLast;
+        } else {
+            newLast.previous = oldLast;
+        }
+    }
+
     public static void main(String[] args) {
 
     }
