@@ -17,6 +17,11 @@ public class Deque<Item> implements Iterable<Item> {
         return n == 0;
     }
 
+    // Returns the number of items in the Deque.
+    public int size() {
+        return n;
+    }
+
     // Nested class to define nodes
     private class Node {
         Item item;
