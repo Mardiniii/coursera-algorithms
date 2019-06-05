@@ -71,6 +71,15 @@ public class Deque<Item> implements Iterable<Item> {
         return target.item;
     }
 
+    public Item removeLast() {
+        Node target = last;
+        Node successor = last.previous;
+        successor.next = null;
+        last = successor;
+
+        return target.item;
+    }
+
     public static void main(String[] args) {
 
     }
