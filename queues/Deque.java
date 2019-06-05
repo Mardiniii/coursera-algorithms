@@ -24,7 +24,7 @@ public class Deque<Item> implements Iterable<Item> {
     // Returns `true if the Deque does not have any nodes otherwise this method
     // returns `false`.
     public boolean isEmpty() {
-        return n == 0;
+        return first == null && last == null;
     }
 
     // Returns the number of items in the Deque.
@@ -45,11 +45,14 @@ public class Deque<Item> implements Iterable<Item> {
 
         if (isEmpty()) {
             newFirst.next = null;
-            first = newFirst;
-            last = first;
+            first = last = newFirst;
         } else {
             newFirst.next = oldFirst;
+            oldFirst.previous = newFirst;
+            first = newFirst;
         }
+
+        n++;
     }
 
     // Add the item to the end of the Deque
@@ -65,11 +68,14 @@ public class Deque<Item> implements Iterable<Item> {
 
         if (isEmpty()) {
             newLast.previous = null;
-            first = newLast;
-            last = newLast;
+            first = last = newLast;
         } else {
             newLast.previous = oldLast;
+            oldLast.next = newLast;
+            last = newLast;
         }
+
+        n++;
     }
 
     // Remove and return the item from the front.
@@ -80,8 +86,12 @@ public class Deque<Item> implements Iterable<Item> {
 
         Node target = first;
         Node successor = first.next;
-        successor.previous = null;
+        // If it is not the last node in the Deque and we have a successor update
+        // the previous reference to be `null`
+        if (!(successor != null)) successor.previous = null;
         first = successor;
+
+        n--;
 
         return target.item;
     }
@@ -93,8 +103,12 @@ public class Deque<Item> implements Iterable<Item> {
 
         Node target = last;
         Node successor = last.previous;
-        successor.next = null;
+        // If it is not the last node in the Deque and we have a successor update
+        // the previous reference to be `null`
+        if (!(successor != null)) successor.next = null;
         last = successor;
+
+        n--;
 
         return target.item;
     }
