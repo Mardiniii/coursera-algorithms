@@ -11,6 +11,13 @@ public class Deque<Item> implements Iterable<Item> {
     private Node last;
     private int n;
 
+    // Nested class to define nodes
+    private class Node {
+        Item item;
+        Node previous;
+        Node next;
+    }
+
     // Returns `true if the Deque does not have any nodes otherwise this method
     // returns `false`.
     public boolean isEmpty() {
@@ -22,10 +29,20 @@ public class Deque<Item> implements Iterable<Item> {
         return n;
     }
 
-    // Nested class to define nodes
-    private class Node {
-        Item item;
-        Node next;
+    // Add the item to front of the Deque.
+    public void addFirst(Item item) {
+        Node oldFirst = first;
+        Node newFirst = new Node();
+        newFirst.item = item;
+        newFirst.previous = null;
+
+        if (isEmpty()) {
+            newFirst.next = null;
+            first = newFirst;
+            last = first;
+        } else {
+            newFirst.next = oldFirst;
+        }
     }
 
     public static void main(String[] args) {
