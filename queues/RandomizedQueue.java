@@ -19,6 +19,16 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         return n;
     }
 
+    // Resize the array to the given `max` size passed as an argument.
+    private void resize(int max) {
+        Item[] temp = (Item[]) new Object[max];
+
+        for (int i = 0; i < n; i++) {
+            temp[i] = queue[i];
+        }
+        queue = temp;
+    }
+
     public static void main(String[] args) {
 
     }
