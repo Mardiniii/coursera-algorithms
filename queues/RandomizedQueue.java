@@ -19,6 +19,12 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         return n;
     }
 
+    // Add an item to the RandomizedQueue.
+    public void enqueue(Item item) {
+        if (n == queue.length) resize(2 * queue.length);
+        queue[n++] = item;
+    }
+
     // Resize the array to the given `max` size passed as an argument.
     private void resize(int max) {
         Item[] temp = (Item[]) new Object[max];
