@@ -7,7 +7,7 @@
  **************************************************************************** */
 
 public class RandomizedQueue<Item> implements Iterable<Item> {
-    private Item[] queue;
+    private Item[] queue = (Item[]) new Object[1];
     private int n = 0;
 
     public static void main(String[] args) {
