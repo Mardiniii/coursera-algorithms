@@ -87,9 +87,15 @@ public class Deque<Item> implements Iterable<Item> {
         Node target = first;
         Node successor = first.next;
         // If it is not the last node in the Deque and we have a successor update
-        // the previous reference to be `null`
-        if (!(successor != null)) successor.previous = null;
-        first = successor;
+        // the `previous reference reference from the `successor` to be `null` `
+        // and update `first` to be equal to the new successor. Otherwise set
+        // `first` and `last` equal to `null`.
+        if (successor == null) {
+            first = last = null;
+        } else {
+            successor.previous = null;
+            first = successor;
+        }
 
         n--;
 
@@ -104,9 +110,15 @@ public class Deque<Item> implements Iterable<Item> {
         Node target = last;
         Node successor = last.previous;
         // If it is not the last node in the Deque and we have a successor update
-        // the previous reference to be `null`
-        if (!(successor != null)) successor.next = null;
-        last = successor;
+        // the `next` reference from the `successor` to be `null` and update
+        // `last` to be equal to the new `successor`. Otherwise set `first` and
+        // `last` equal to `null`.
+        if (successor == null) {
+            first = last = null;
+        } else {
+            successor.next = null;
+            last = successor;
+        }
 
         n--;
 
@@ -188,8 +200,7 @@ public class Deque<Item> implements Iterable<Item> {
         deque.removeLast();
         System.out.println("Deque size: " + deque.size());
 
-        // Raise and exception because the Deque is empty
+        // Raise a java.util.NoSuchElementException exception. The Deque is empty
         deque.removeFirst();
-        deque.removeLast();
     }
 }
