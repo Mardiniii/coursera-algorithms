@@ -14,6 +14,11 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     // this method returns `false`.
     public boolean isEmpty() { return n == 0; }
 
+    // Returns the number of items in the RandomizedQueue.
+    public int size() {
+        return n;
+    }
+
     public static void main(String[] args) {
 
     }
