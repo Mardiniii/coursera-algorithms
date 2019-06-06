@@ -6,3 +6,4 @@ percolation/*
 # Don't ignore Queues files
 queues/*
 !queues/Deque.java
+!queues/RandomizedQueue.java
