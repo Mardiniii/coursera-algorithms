@@ -40,6 +40,18 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         return item;
     }
 
+    // Return a random item (but do not remove it)
+    public Item sample() {
+        // Rearrange elements of the RandomizedQueue in uniformly random order.
+        int randomIndex = -1;
+
+        while (randomIndex != -1 && queue[randomIndex] != null) {
+            randomIndex = StdRandom.uniform(n);
+        }
+
+        return queue[randomIndex];
+    }
+
     // Resize the array to the given `max` size passed as an argument.
     private void resize(int max) {
         Item[] temp = (Item[]) new Object[max];
