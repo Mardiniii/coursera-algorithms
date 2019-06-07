@@ -8,6 +8,8 @@
 
 import edu.princeton.cs.algs4.StdRandom;
 
+import java.util.Iterator;
+
 public class RandomizedQueue<Item> implements Iterable<Item> {
     private Item[] queue = (Item[]) new Object[1];
     private int n = 0;
@@ -63,6 +65,36 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
             temp[i] = queue[i];
         }
         queue = temp;
+    }
+
+    public ListIterator iterator() {
+        return new ListIterator();
+    }
+
+    private class ListIterator implements Iterator<Item> {
+        private int[] indices;
+        private int i = 0;
+
+        public ListIterator() {
+            indices = new int[n];
+
+            for (int i = 0; i < n; i++)
+                indices[i] = i;
+
+            StdRandom.shuffle(indices);
+        }
+
+        public boolean hasNext() {
+            return i < n;
+        }
+
+        public void remove() {
+            throw new UnsupportedOperationException("This method is not implemented.");
+        }
+
+        public Item next() {
+            return queue[indices[i++]];
+        }
     }
 
     public static void main(String[] args) {
