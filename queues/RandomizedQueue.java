@@ -98,6 +98,69 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     }
 
     public static void main(String[] args) {
+        RandomizedQueue<Integer> randomQueue = new RandomizedQueue<Integer>();
 
+        System.out.println("Enqueueing 10 elements...");
+
+        // Enqueue 10 elements
+        randomQueue.enqueue(1);
+        randomQueue.enqueue(2);
+        randomQueue.enqueue(3);
+        randomQueue.enqueue(4);
+        randomQueue.enqueue(5);
+        randomQueue.enqueue(6);
+        randomQueue.enqueue(7);
+        randomQueue.enqueue(8);
+        randomQueue.enqueue(9);
+        randomQueue.enqueue(10);
+
+        System.out.println("Randomized Queue size: " + randomQueue.size());
+
+        System.out.println("Sample 5 elements...");
+
+        System.out.println("Sample item: " + randomQueue.sample());
+        System.out.println("Sample item: " + randomQueue.sample());
+        System.out.println("Sample item: " + randomQueue.sample());
+        System.out.println("Sample item: " + randomQueue.sample());
+        System.out.println("Sample item: " + randomQueue.sample());
+
+        System.out.println("Dequeueing 10 elements...");
+
+        // Dequeue 10 element
+        randomQueue.dequeue();
+        randomQueue.dequeue();
+        randomQueue.dequeue();
+        randomQueue.dequeue();
+        randomQueue.dequeue();
+        randomQueue.dequeue();
+        randomQueue.dequeue();
+        randomQueue.dequeue();
+        randomQueue.dequeue();
+        randomQueue.dequeue();
+
+        System.out.println("Randomized Queue size: " + randomQueue.size());
+
+        System.out.println("Re-enqueueing 10 elements...");
+
+        // Renqueue 10 elements
+        randomQueue.enqueue(1);
+        randomQueue.enqueue(2);
+        randomQueue.enqueue(3);
+        randomQueue.enqueue(4);
+        randomQueue.enqueue(5);
+        randomQueue.enqueue(6);
+        randomQueue.enqueue(7);
+        randomQueue.enqueue(8);
+        randomQueue.enqueue(9);
+        randomQueue.enqueue(10);
+
+        Iterator<Integer> i = randomQueue.iterator();
+
+        System.out.println("Randomized Queue size: " + randomQueue.size());
+
+        while (i.hasNext()) {
+            int n = i.next();
+            System.out.println(n);
+        }
     }
 }
