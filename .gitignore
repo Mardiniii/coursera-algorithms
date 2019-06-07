@@ -7,3 +7,4 @@ percolation/*
 queues/*
 !queues/Deque.java
 !queues/RandomizedQueue.java
+!queues/Permutation.java
