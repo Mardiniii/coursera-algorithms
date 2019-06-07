@@ -9,6 +9,7 @@
 import edu.princeton.cs.algs4.StdRandom;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class RandomizedQueue<Item> implements Iterable<Item> {
     private Item[] queue = (Item[]) new Object[1];
@@ -25,12 +26,20 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
     // Add an item to the RandomizedQueue.
     public void enqueue(Item item) {
+        if (item == null) {
+            throw new IllegalArgumentException("Invalid item to be inserted!");
+        }
+
         if (n == queue.length) resize(2 * queue.length);
         queue[n++] = item;
     }
 
     // Remove and return a random item from the RandomizedQueue.
     public Item dequeue() {
+        if (isEmpty()) {
+            throw new NoSuchElementException("The RandomizedQueue is empty!");
+        }
+
         // Rearrange elements of the RandomizedQueue in uniformly random order.
         int randomIndex = StdRandom.uniform(n);
 
@@ -52,6 +61,10 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
     // Return a random item (but do not remove it)
     public Item sample() {
+        if (isEmpty()) {
+            throw new NoSuchElementException("The RandomizedQueue is empty!");
+        }
+
         int randomIndex = StdRandom.uniform(n);
 
         return queue[randomIndex];
@@ -93,6 +106,10 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         }
 
         public Item next() {
+            if (i >= n) {
+                throw new NoSuchElementException("No more items to be returned.");
+            }
+
             return queue[indices[i++]];
         }
     }
