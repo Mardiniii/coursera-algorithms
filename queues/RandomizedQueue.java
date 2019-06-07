@@ -80,7 +80,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         queue = temp;
     }
 
-    public ListIterator iterator() {
+    public Iterator<Item> iterator() {
         return new ListIterator();
     }
 
@@ -88,7 +88,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         private int[] indices;
         private int i = 0;
 
-        public ListIterator() {
+        private ListIterator() {
             indices = new int[n];
 
             for (int i = 0; i < n; i++)
