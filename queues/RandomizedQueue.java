@@ -30,11 +30,11 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     }
 
     // Remove and return a random item from the RandomizedQueue.
-    public Item dequeue(Item item) {
+    public Item dequeue() {
         // Rearrange elements of the RandomizedQueue in uniformly random order.
         int randomIndex = StdRandom.uniform(n);
 
-        item = queue[randomIndex];
+        Item item = queue[randomIndex];
 
         int i = 0;
         for (int j = 0; j < n; j++) {
