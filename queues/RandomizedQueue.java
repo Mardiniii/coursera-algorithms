@@ -42,12 +42,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
     // Return a random item (but do not remove it)
     public Item sample() {
-        // Rearrange elements of the RandomizedQueue in uniformly random order.
-        int randomIndex = -1;
-
-        while (randomIndex != -1 && queue[randomIndex] != null) {
-            randomIndex = StdRandom.uniform(n);
-        }
+        int randomIndex = StdRandom.uniform(n);
 
         return queue[randomIndex];
     }
