@@ -80,14 +80,14 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     }
 
     private class ListIterator implements Iterator<Item> {
-        private int[] indices;
+        private final int[] indices;
         private int i = 0;
 
         private ListIterator() {
             indices = new int[n];
 
-            for (int i = 0; i < n; i++)
-                indices[i] = i;
+            for (int j = 0; j < n; j++)
+                indices[j] = j;
 
             StdRandom.shuffle(indices);
         }
