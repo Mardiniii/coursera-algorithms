@@ -68,7 +68,8 @@ public class Deque<Item> implements Iterable<Item> {
 
         if (isEmpty()) {
             newLast.previous = null;
-            first = last = newLast;
+            last = newLast;
+            first = last;
         } else {
             newLast.previous = oldLast;
             oldLast.next = newLast;
@@ -91,7 +92,8 @@ public class Deque<Item> implements Iterable<Item> {
         // and update `first` to be equal to the new successor. Otherwise set
         // `first` and `last` equal to `null`.
         if (successor == null) {
-            first = last = null;
+            last = null;
+            first = null;
         } else {
             successor.previous = null;
             first = successor;
@@ -114,7 +116,8 @@ public class Deque<Item> implements Iterable<Item> {
         // `last` to be equal to the new `successor`. Otherwise set `first` and
         // `last` equal to `null`.
         if (successor == null) {
-            first = last = null;
+            first = null;
+            last = null;
         } else {
             successor.next = null;
             last = successor;
