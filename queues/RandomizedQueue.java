@@ -45,14 +45,8 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         int randomIndex = StdRandom.uniform(n);
 
         Item item = queue[randomIndex];
-
-        int i = 0;
-        for (int j = 0; j < n; j++) {
-            if (j != randomIndex)
-                queue[i++] = queue[j];
-        }
-
-        queue[n] = null; // avoid loitering
+        queue[randomIndex] = queue[n-1];
+        queue[n-1] = null;
         n--;
 
         if (n > 0 && n == queue.length / 4) resize(queue.length / 2);
@@ -117,6 +111,16 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
     public static void main(String[] args) {
         RandomizedQueue<Integer> randomQueue = new RandomizedQueue<Integer>();
+
+        System.out.println("Running methods when the RandomizedQueue is empty...");
+        randomQueue.enqueue(64);
+        System.out.println("Randomized Queue size: " + randomQueue.size());
+        randomQueue.dequeue();
+
+        randomQueue.size();
+        randomQueue.enqueue(0);
+        randomQueue.enqueue(3);
+        randomQueue.dequeue();
 
         System.out.println("Enqueueing 10 elements...");
 
