@@ -31,7 +31,8 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         }
 
         if (n == queue.length) resize(2 * queue.length);
-        queue[n++] = item;
+        queue[n] = item;
+        n++;
     }
 
     // Remove and return a random item from the RandomizedQueue.
