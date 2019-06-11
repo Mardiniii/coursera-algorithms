@@ -1,10 +1,14 @@
-# Ignore Percolation files excluding the solutions
+# Do not ignore Percolation files
 percolation/*
 !percolation/Percolation.java
 !percolation/PercolationStats.java
 
-# Don't ignore Queues files
+# Do not ignore Queues files
 queues/*
 !queues/Deque.java
 !queues/RandomizedQueue.java
-!queues/Permutation.java
+!queues/Permutation.javai
+
+# Do not ignore Collinear files
+collinear/*
+!collinear/Point.java
