@@ -12,3 +12,4 @@ queues/*
 # Do not ignore Collinear files
 collinear/*
 !collinear/Point.java
+!collinear/BruteCollinearPoints.java
