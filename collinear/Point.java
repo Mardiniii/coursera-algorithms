@@ -103,8 +103,8 @@ public class Point implements Comparable<Point> {
 
     private class SlopeOrder implements Comparator<Point> {
         public int compare(Point p1, Point p2) {
-            double slope1 = Point.this.slopeTo(p1);
-            double slope2 = Point.this.slopeTo(p2);
+            double slope1 = slopeTo(p1);
+            double slope2 = slopeTo(p2);
 
             if (slope1 < slope2) return -1;
             if (slope1 > slope2) return +1;
