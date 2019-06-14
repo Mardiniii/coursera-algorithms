@@ -8,6 +8,7 @@
 import java.util.List;
 import java.util.Arrays;
 import java.util.ArrayList;
+import java.lang.IllegalArgumentException;
 
 public class BruteCollinearPoints {
     private final Point[] points;
@@ -16,10 +17,14 @@ public class BruteCollinearPoints {
 
     // Create a new instance and find all the collinear points in the array.
     public BruteCollinearPoints(Point[] pointsArray) {
+        validatePoints(pointsArray);
+
         points = pointsArray;
         Point[] temp = new Point[4];
         int numberOfPoints = points.length;
         List<LineSegment> list = new ArrayList<LineSegment>();
+
+        Arrays.sort(points);
 
         for (int i = 0; i < numberOfPoints; i++) {
             for (int j = i+1; j < numberOfPoints; j++) {
@@ -29,8 +34,6 @@ public class BruteCollinearPoints {
                         temp[1] = points[j];
                         temp[2] = points[k];
                         temp[3] = points[l];
-
-                        Arrays.sort(temp);
 
                         double slope1 = temp[0].slopeTo(temp[1]);
                         double slope2 = temp[0].slopeTo(temp[2]);
@@ -58,6 +61,29 @@ public class BruteCollinearPoints {
         return lineSegments;
     }
 
+    private void validatePoints(Point[] pointsArray) {
+        // Check if the `pointsArray` is a null argument
+        if (pointsArray == null) {
+            throw new IllegalArgumentException("The points argument is invalid, null value passed!");
+        }
+
+        // Check for any null elements in the `pointsArray`
+        for (int i = 0; i < pointsArray.length; i++) {
+            if (pointsArray[i] == null) {
+                throw new IllegalArgumentException("Invalid point element, it contains null values!");
+            }
+        }
+
+        // Check if the `pointsArray` contains duplicated elements.
+        for (int i = 0; i < pointsArray.length; i++) {
+            for (int j = i + 1; j < pointsArray.length; j++) {
+                if (pointsArray[i] == pointsArray[j]) {
+                    throw new IllegalArgumentException("Duplicated point elements!");
+                }
+            }
+        }
+    }
+
     public static void main(String[] args) {
         Point p1 = new Point(1, 3);
         Point p2 = new Point(2, 6);
@@ -71,12 +97,14 @@ public class BruteCollinearPoints {
 
         BruteCollinearPoints bcp = new BruteCollinearPoints(points);
 
-        System.out.println("Number of segments: " + bcp.getNumberOfSegments());
 
         for (int i = 0; i < bcp.segments().length; i++) {
             LineSegment segment = bcp.segments()[i];
 
             System.out.println("Segments: " + segment.toString());
         }
+
+        System.out.println("Number of segments: " + bcp.getNumberOfSegments());
+        System.out.println("Number of segments: " + bcp.segments().length);
     }
 }
