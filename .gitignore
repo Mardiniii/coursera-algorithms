@@ -13,3 +13,4 @@ queues/*
 collinear/*
 !collinear/Point.java
 !collinear/BruteCollinearPoints.java
+!collinear/FastCollinearPoints.java
