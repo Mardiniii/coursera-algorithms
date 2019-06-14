@@ -5,11 +5,29 @@
  *  the same line segment, returning all such line segments.
  **************************************************************************** */
 
-public class FastCollinearPoints {
+import java.util.Arrays;
 
+public class FastCollinearPoints {
+    private final Point[] points;
+    private int numberOfSegments = 0;
+    private LineSegment[] lineSegments = new LineSegment[1];
 
     public FastCollinearPoints(Point[] pointsArray) {
         validatePoints(pointsArray);
+
+        points = pointsArray;
+
+        Arrays.sort(pointsArray);
+    }
+
+    // Return the number of segments detected by the constructor.
+    public int getNumberOfSegments() {
+        return numberOfSegments;
+    }
+
+    // Return the collinear segments detected by the constructor.
+    public LineSegment[] segments() {
+        return lineSegments;
     }
 
     private void validatePoints(Point[] pointsArray) {
