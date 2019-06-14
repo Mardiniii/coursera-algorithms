@@ -5,15 +5,13 @@
  *  the same line segment, returning all such line segments.
  **************************************************************************** */
 
-import java.util.List;
 import java.util.Arrays;
-import java.util.ArrayList;
 import java.lang.IllegalArgumentException;
 
 public class BruteCollinearPoints {
     private final Point[] points;
     private int numberOfSegments = 0;
-    private LineSegment[] lineSegments;
+    private LineSegment[] lineSegments = new LineSegment[1];
 
     // Create a new instance and find all the collinear points in the array.
     public BruteCollinearPoints(Point[] pointsArray) {
@@ -22,7 +20,9 @@ public class BruteCollinearPoints {
         points = pointsArray;
         Point[] temp = new Point[4];
         int numberOfPoints = points.length;
-        List<LineSegment> list = new ArrayList<LineSegment>();
+        // Secondary approach to hava dynamic array. This library hasn't been in-
+        // troduced yet at this part of the course.
+        // List<LineSegment> list = new ArrayList<LineSegment>();
 
         Arrays.sort(points);
 
@@ -40,15 +40,22 @@ public class BruteCollinearPoints {
                         double slope3 = temp[0].slopeTo(temp[3]);
 
                         if (slope1 == slope2 && slope2 == slope3) {
-                            numberOfSegments++;
-                            list.add(new LineSegment(temp[0], temp[3]));
+                            // Secondary approach to dynamic array.
+                            // list.add(new LineSegment(temp[0], temp[3]));
+
+                            // Increment the number of segments and resize the array
+                            resizeArray(numberOfSegments += 1);
+
+                            // Include the new `lineSegment`
+                            lineSegments[numberOfSegments-1] = new LineSegment(temp[0], temp[3]);
                         }
                     }
                 }
             }
         }
 
-        lineSegments = list.toArray( new LineSegment[list.size()]);
+        // Secondary approach to dynamic array.
+        // lineSegments = list.toArray( new LineSegment[list.size()]);
     }
 
     // Return the number of segments detected by the constructor.
@@ -82,6 +89,17 @@ public class BruteCollinearPoints {
                 }
             }
         }
+    }
+
+    // Resize the lineSegments array to the given `size` argument passed as a
+    // parameter.
+    private void resizeArray(int size) {
+        LineSegment[] temp = new LineSegment[size];
+
+        for (int i = 0; i < lineSegments.length; i++) {
+            temp[i] = lineSegments[i];
+        }
+        lineSegments = temp;
     }
 
     public static void main(String[] args) {
