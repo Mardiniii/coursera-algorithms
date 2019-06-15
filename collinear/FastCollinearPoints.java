@@ -72,7 +72,7 @@ public class FastCollinearPoints {
     }
 
     // Return the number of segments detected by the constructor.
-    public int getNumberOfSegments() {
+    public int numberOfSegments() {
         return numberOfSegments;
     }
 
