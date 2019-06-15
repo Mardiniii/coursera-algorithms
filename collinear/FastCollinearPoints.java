@@ -6,9 +6,13 @@
  **************************************************************************** */
 
 import java.util.Arrays;
+import edu.princeton.cs.algs4.In;
+import edu.princeton.cs.algs4.StdDraw;
+import edu.princeton.cs.algs4.StdOut;
 
 public class FastCollinearPoints {
     private final Point[] points;
+    private final int numberOfPoints;
     private int numberOfSegments = 0;
     private LineSegment[] lineSegments = new LineSegment[1];
 
@@ -16,8 +20,55 @@ public class FastCollinearPoints {
         validatePoints(pointsArray);
 
         points = pointsArray;
+        numberOfPoints = points.length;
 
         Arrays.sort(pointsArray);
+
+        Point[] temp = Arrays.copyOf(points, points.length);
+
+        for (int i = 0; i < numberOfPoints; i++) {
+            Arrays.sort(temp, points[i].slopeOrder());
+            Point firstPoint = points[i];
+            Point lastPoint = points[i];
+            int pointsCounter = 2;
+
+            for (int j = 0; j < numberOfPoints - 1; j++) {
+                if (points[i].slopeTo(points[j + 1]) == points[j].slopeTo(points[j + 1])) {
+                    if (temp[j + 1].compareTo(points[i]) > 0) {
+                        lastPoint = temp[j+1];
+                    } else if ((temp[j + 1].compareTo(points[i]) < 0)) {
+                        firstPoint = temp[j+1];
+                    }
+                    pointsCounter++;
+
+                    if (j == numberOfPoints - 2 && pointsCounter >= 4 && points[i].compareTo(firstPoint) == 0) {
+                        // Increment the number of segments and resize the array
+                        resizeArray(numberOfSegments += 1);
+
+                        // Include the new `lineSegment`
+                        lineSegments[numberOfSegments-1] = new LineSegment(firstPoint, lastPoint);
+                    }
+
+                } else {
+                    if (pointsCounter >= 4 && points[i].compareTo(firstPoint) == 0) {
+                        // Increment the number of segments and resize the array
+                        resizeArray(numberOfSegments += 1);
+
+                        // Include the new `lineSegment`
+                        lineSegments[numberOfSegments-1] = new LineSegment(firstPoint, lastPoint);
+                    }
+                    if (points[i].compareTo(temp[j + 1]) > 0) {
+                        lastPoint = points[i];
+                        firstPoint = temp[j + 1];
+                        pointsCounter = 2;
+                    } else {
+                        lastPoint = temp[j + 1];
+                        firstPoint = points[i];
+                        pointsCounter = 2;
+                    }
+                }
+            }
+        }
     }
 
     // Return the number of segments detected by the constructor.
