@@ -30,6 +30,17 @@ public class FastCollinearPoints {
         return lineSegments;
     }
 
+    // Resize the lineSegments array to the given `size` argument passed as a
+    // parameter.
+    private void resizeArray(int size) {
+        LineSegment[] temp = new LineSegment[size];
+
+        for (int i = 0; i < lineSegments.length; i++) {
+            temp[i] = lineSegments[i];
+        }
+        lineSegments = temp;
+    }
+
     private void validatePoints(Point[] pointsArray) {
         // Check if the `pointsArray` is a null argument
         if (pointsArray == null) {
