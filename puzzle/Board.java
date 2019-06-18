@@ -21,6 +21,11 @@ public class Board {
         }
     }
 
+    // Returns board dimension
+    public int dimension() {
+        return n;
+    }
+
     // String representation of this board
     public String toString() {
         StringBuilder s = new StringBuilder();
