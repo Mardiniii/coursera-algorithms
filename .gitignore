@@ -14,3 +14,8 @@ collinear/*
 !collinear/Point.java
 !collinear/BruteCollinearPoints.java
 !collinear/FastCollinearPoints.java
+
+# Do not ignore Puzzle files
+puzzle/*
+!puzzle/Board.java
+!puzzle/Solver.java
