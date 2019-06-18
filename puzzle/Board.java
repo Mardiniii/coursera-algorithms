@@ -21,7 +21,30 @@ public class Board {
         }
     }
 
-    public static void main(String[] args) {
+    // String representation of this board
+    public String toString() {
+        StringBuilder s = new StringBuilder();
+        s.append(n + "\n");
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                s.append(String.format("%2d ", grid[i][j]));
+            }
+            s.append("\n");
+        }
+        return s.toString();
+    }
 
+    public static void main(String[] args) {
+        int[] firstRow  = {1, 2, 3};
+        int[] secondRow = {4, 5, 6};
+        int[] thirdRow  = {7, 8, 9};
+
+        int[][] blocks = {firstRow, secondRow, thirdRow};
+
+        Board myBoard = new Board(blocks);
+
+        String stringBoard = myBoard.toString();
+
+        System.out.println(stringBoard);
     }
 }
