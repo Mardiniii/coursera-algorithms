@@ -11,19 +11,34 @@ import edu.princeton.cs.algs4.StdDraw;
 import edu.princeton.cs.algs4.StdOut;
 
 public class FastCollinearPoints {
-    private final Point[] points;
-    private final int numberOfPoints;
-    private int numberOfSegments = 0;
+    private int numberOfSegments;
     private LineSegment[] lineSegments = new LineSegment[1];
 
     public FastCollinearPoints(Point[] pointsArray) {
-        validatePoints(pointsArray);
+        // Check if the `pointsArray` is a null argument
+        if (pointsArray == null)
+            throw new IllegalArgumentException("The points argument is invalid, null value passed!");
 
-        points = pointsArray;
-        numberOfPoints = points.length;
+        int numberOfPoints = pointsArray.length;
+        Point[] points = new Point[numberOfPoints];
 
-        Arrays.sort(pointsArray);
+        // Check for any null elements in the `pointsArray`
+        for (int i = 0; i < points.length; i++) {
+            if (pointsArray[i] == null)
+                throw new IllegalArgumentException("Invalid point element, it contains null values!");
+            points[i] = pointsArray[i];
+        }
 
+        // Sort array before validating for duplicated points.
+        Arrays.sort(points);
+
+        // Check if the `points` contains duplicated elements.
+        for (int i = 0; i < points.length - 1; i++) {
+            if (points[i].compareTo(points[i + 1]) == 0)
+                throw new IllegalArgumentException("Duplicated point elements!");
+        }
+
+        numberOfSegments = 0;
         Point[] temp = Arrays.copyOf(points, points.length);
 
         for (int i = 0; i < numberOfPoints; i++) {
@@ -33,29 +48,31 @@ public class FastCollinearPoints {
             int pointsCounter = 2;
 
             for (int j = 0; j < numberOfPoints - 1; j++) {
-                if (points[i].slopeTo(points[j + 1]) == points[j].slopeTo(points[j + 1])) {
-                    if (temp[j + 1].compareTo(points[i]) > 0) {
-                        lastPoint = temp[j+1];
-                    } else if ((temp[j + 1].compareTo(points[i]) < 0)) {
-                        firstPoint = temp[j+1];
+                if (points[i].slopeOrder().compare(temp[j], temp[j + 1]) == 0) {
+                    if (temp[j + 1].compareTo(lastPoint) > 0) {
+                        lastPoint = temp[j + 1];
+                    } else if ((temp[j + 1].compareTo(firstPoint) < 0)) {
+                        firstPoint = temp[j + 1];
                     }
                     pointsCounter++;
 
                     if (j == numberOfPoints - 2 && pointsCounter >= 4 && points[i].compareTo(firstPoint) == 0) {
                         // Increment the number of segments and resize the array
-                        resizeArray(numberOfSegments += 1);
+                        numberOfSegments += 1;
+                        resizeArray(numberOfSegments);
 
                         // Include the new `lineSegment`
-                        lineSegments[numberOfSegments-1] = new LineSegment(firstPoint, lastPoint);
+                        lineSegments[numberOfSegments - 1] = new LineSegment(firstPoint, lastPoint);
                     }
 
                 } else {
                     if (pointsCounter >= 4 && points[i].compareTo(firstPoint) == 0) {
                         // Increment the number of segments and resize the array
-                        resizeArray(numberOfSegments += 1);
+                        numberOfSegments += 1;
+                        resizeArray(numberOfSegments);
 
                         // Include the new `lineSegment`
-                        lineSegments[numberOfSegments-1] = new LineSegment(firstPoint, lastPoint);
+                        lineSegments[numberOfSegments - 1] = new LineSegment(firstPoint, lastPoint);
                     }
                     if (points[i].compareTo(temp[j + 1]) > 0) {
                         lastPoint = points[i];
@@ -78,7 +95,7 @@ public class FastCollinearPoints {
 
     // Return the collinear segments detected by the constructor.
     public LineSegment[] segments() {
-        return lineSegments;
+        return Arrays.copyOf(lineSegments, numberOfSegments);
     }
 
     // Resize the lineSegments array to the given `size` argument passed as a
@@ -92,51 +109,49 @@ public class FastCollinearPoints {
         lineSegments = temp;
     }
 
-    private void validatePoints(Point[] pointsArray) {
-        // Check if the `pointsArray` is a null argument
-        if (pointsArray == null) {
-            throw new IllegalArgumentException("The points argument is invalid, null value passed!");
-        }
-
-        // Check for any null elements in the `pointsArray`
-        for (int i = 0; i < pointsArray.length; i++) {
-            if (pointsArray[i] == null) {
-                throw new IllegalArgumentException("Invalid point element, it contains null values!");
-            }
-        }
-
-        // Check if the `pointsArray` contains duplicated elements.
-        for (int i = 0; i < pointsArray.length; i++) {
-            for (int j = i + 1; j < pointsArray.length; j++) {
-                if (pointsArray[i] == pointsArray[j]) {
-                    throw new IllegalArgumentException("Duplicated point elements!");
-                }
-            }
-        }
-    }
-
     public static void main(String[] args) {
+        Point p1 = new Point(1, 3);
+        Point p2 = new Point(2, 6);
+        Point p3 = new Point(3, 9);
+        Point p4 = new Point(4, 12);
+        Point p5 = new Point(5, 15);
+        Point p6 = new Point(6, 18);
+        Point p7 = new Point(7, 21);
+        Point p8 = new Point(8, 24);
+        Point[] pointsFirstTest = {p1, p2, p3, p4, p5, p6, p7, p8};
+
+        FastCollinearPoints fcp = new FastCollinearPoints(pointsFirstTest);
+
+        for (int i = 0; i < fcp.segments().length; i++) {
+            LineSegment segment = fcp.segments()[i];
+
+            System.out.println("Segments: " + segment.toString());
+        }
+
+        System.out.println("Number of segments: " + fcp.numberOfSegments());
+        System.out.println("Number of segments: " + fcp.segments().length);
+
         // read the n points from a file
         In in = new In(args[0]);
         int n = in.readInt();
-        Point[] points = new Point[n];
+        Point[] pointsSecondTest = new Point[n];
         for (int i = 0; i < n; i++) {
             int x = in.readInt();
             int y = in.readInt();
-            points[i] = new Point(x, y);
+            pointsSecondTest[i] = new Point(x, y);
         }
 
-        // draw the points
+        // draw the pointsSecondTest
         StdDraw.enableDoubleBuffering();
         StdDraw.setXscale(0, 32768);
         StdDraw.setYscale(0, 32768);
-        for (Point p : points) {
+        for (Point p : pointsSecondTest) {
             p.draw();
         }
         StdDraw.show();
 
         // print and draw the line segments
-        FastCollinearPoints collinear = new FastCollinearPoints(points);
+        FastCollinearPoints collinear = new FastCollinearPoints(pointsSecondTest);
         for (LineSegment segment : collinear.segments()) {
             StdOut.println(segment);
             segment.draw();

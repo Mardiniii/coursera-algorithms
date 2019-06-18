@@ -128,10 +128,10 @@ public class Point implements Comparable<Point> {
      * Unit tests the Point data type.
      */
     public static void main(String[] args) {
-        Point p1 = new Point(1,5);
-        Point p2 = new Point(1,3);
-        Point p3 = new Point(3,1);
-        Point p4 = new Point(5,1);
+        Point p1 = new Point(1, 5);
+        Point p2 = new Point(1, 3);
+        Point p3 = new Point(3, 1);
+        Point p4 = new Point(5, 1);
 
         System.out.println("Slope to itslef: " + p1.slopeTo(p1));
         System.out.println("Vertical slope: "+ p1.slopeTo(p2));
@@ -139,7 +139,7 @@ public class Point implements Comparable<Point> {
         System.out.println("Regular slope: " + p1.slopeTo(p4));
         System.out.println("Regular slope: " + p2.slopeTo(p4));
 
-        System.out.println("p1 compared to itslef returns 0: " + p1.compareTo(p1));
+        // System.out.println("p1 compared to itslef returns 0: " + p1.compareTo(p1));
         System.out.println("p1 compared to p2 returns +1: " + p1.compareTo(p2));
         System.out.println("p2 compared to p1 returns -1: " + p2.compareTo(p1));
         System.out.println("p3 compared to p4 returns -1: " + p3.compareTo(p4));
