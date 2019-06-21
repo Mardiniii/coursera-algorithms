@@ -69,6 +69,22 @@ public class Board {
         return manhattanDistanceSum;
     }
 
+    // Returns `true` or `false` if this board is the goal board.
+    public boolean isGoal() {
+        for(int i = 0; i < n; i++) {
+            for(int j = 0; j < n; j++) {
+                int currentBlock = grid[i][j];
+                int targetX = (currentBlock - 1) / n;
+                int targetY = (currentBlock - 1) % n;
+
+                if (currentBlock != 0 && targetX != i && targetY != j)
+                    return false;
+            }
+        }
+
+        return true;
+    }
+
     // String representation of this board
     public String toString() {
         StringBuilder s = new StringBuilder();
@@ -83,13 +99,21 @@ public class Board {
     }
 
     public static void main(String[] args) {
+        // Hamming = 7, Manhattan = 13
         int[] firstRow  = {4, 0, 5};
         int[] secondRow = {1, 3, 8};
         int[] thirdRow  = {7, 6, 2};
 
+        // Hamming = 6, Manhattan = 9
         // int[] firstRow  = {1, 0, 2};
         // int[] secondRow = {7, 5, 4};
         // int[] thirdRow  = {8, 6, 3};
+
+        // Goal board
+        // Hamming = 0, Manhattan = 0
+        // int[] firstRow  = {1, 2, 3};
+        // int[] secondRow = {4, 5, 6};
+        // int[] thirdRow  = {7, 8, 0};
 
         int[][] blocks = {firstRow, secondRow, thirdRow};
 
@@ -100,5 +124,6 @@ public class Board {
         System.out.println(stringBoard);
         System.out.println(myBoard.hamming());
         System.out.println(myBoard.manhattan());
+        System.out.println(myBoard.isGoal());
     }
 }
