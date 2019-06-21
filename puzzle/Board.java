@@ -26,6 +26,24 @@ public class Board {
         return n;
     }
 
+
+    // Returns number of block out of place
+    public int hamming() {
+        int expectedBlock = 1;
+        int blocksCounter = 0;
+
+        for(int i = 0; i < n; i++) {
+            for(int j = 0; j < n; j++) {
+                if(grid[i][j] != 0 && grid[i][j] != expectedBlock)
+                    blocksCounter++;
+
+                expectedBlock++;
+            }
+        }
+
+        return blocksCounter;
+    }
+
     // String representation of this board
     public String toString() {
         StringBuilder s = new StringBuilder();
@@ -40,9 +58,9 @@ public class Board {
     }
 
     public static void main(String[] args) {
-        int[] firstRow  = {1, 2, 3};
-        int[] secondRow = {4, 5, 6};
-        int[] thirdRow  = {7, 8, 9};
+        int[] firstRow  = {4, 0, 5};
+        int[] secondRow = {1, 3, 8};
+        int[] thirdRow  = {7, 6, 2};
 
         int[][] blocks = {firstRow, secondRow, thirdRow};
 
@@ -51,5 +69,6 @@ public class Board {
         String stringBoard = myBoard.toString();
 
         System.out.println(stringBoard);
+        System.out.println(myBoard.hamming());
     }
 }
