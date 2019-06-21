@@ -44,6 +44,31 @@ public class Board {
         return blocksCounter;
     }
 
+    // Returns the sum of Manhattan distances((sum of the vertical and horizontal
+    // distance) between blocks and goal
+    public int manhattan() {
+        int manhattanDistanceSum = 0;
+        int expectedBlock = 1;
+
+        for(int i = 0; i < n; i++) {
+            for(int j = 0; j < n; j++) {
+                int currentBlock = grid[i][j];
+
+                if(currentBlock != 0 && currentBlock != expectedBlock) {
+                    int targetX = (currentBlock - 1) / n;
+                    int targetY = (currentBlock - 1) % n;
+                    int dx = i - targetX;
+                    int dy = j - targetY;
+                    manhattanDistanceSum += Math.abs(dx) + Math.abs(dy);
+                }
+
+                expectedBlock++;
+            }
+        }
+
+        return manhattanDistanceSum;
+    }
+
     // String representation of this board
     public String toString() {
         StringBuilder s = new StringBuilder();
@@ -62,6 +87,10 @@ public class Board {
         int[] secondRow = {1, 3, 8};
         int[] thirdRow  = {7, 6, 2};
 
+        // int[] firstRow  = {1, 0, 2};
+        // int[] secondRow = {7, 5, 4};
+        // int[] thirdRow  = {8, 6, 3};
+
         int[][] blocks = {firstRow, secondRow, thirdRow};
 
         Board myBoard = new Board(blocks);
@@ -70,5 +99,6 @@ public class Board {
 
         System.out.println(stringBoard);
         System.out.println(myBoard.hamming());
+        System.out.println(myBoard.manhattan());
     }
 }
