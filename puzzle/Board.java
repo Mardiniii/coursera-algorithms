@@ -85,6 +85,33 @@ public class Board {
         return true;
     }
 
+    public Board twin() {
+        int blocks[][] = new int[n][n];
+
+        for(int i = 0; i < n; i++) {
+            for(int j = 0; j < n; j++) {
+                blocks[i][j] = grid[i][j];
+            }
+        }
+
+        outerloop:
+        for(int i = 0; i < n; i++) {
+            for(int j = 0; j < n; j++) {
+                int currentBlock = blocks[i][j];
+
+                if (currentBlock != 0 && j + 1 < n && blocks[i][j+1] != 0) {
+                    int temp = blocks[i][j+1];
+
+                    blocks[i][j+1] = currentBlock;
+                    blocks[i][j] = temp;
+                    break outerloop;
+                }
+            }
+        }
+
+        return new Board(blocks);
+    }
+
     // String representation of this board
     public String toString() {
         StringBuilder s = new StringBuilder();
@@ -125,5 +152,10 @@ public class Board {
         System.out.println(myBoard.hamming());
         System.out.println(myBoard.manhattan());
         System.out.println(myBoard.isGoal());
+
+        Board myTwin = myBoard.twin();
+
+        String stringTwin = myTwin.toString();
+        System.out.println(stringTwin);
     }
 }
