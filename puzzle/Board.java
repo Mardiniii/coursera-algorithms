@@ -5,6 +5,8 @@
  *  This abstraction is used to solve the 8-Puzzle problem by using MinPQ and MaxPQ.
  **************************************************************************** */
 
+import java.util.Arrays;
+
 public class Board {
     int n; // Board dimension
     int[][] grid;
@@ -112,6 +114,18 @@ public class Board {
         return new Board(blocks);
     }
 
+    // Returns `true` if this object is equal to y
+    public boolean equals(Object y) {
+        if (y == this) return true;
+        if (y == null) return false;
+        if (y.getClass() != this.getClass()) return false;
+
+        Board that = (Board) y;
+        if (this.n != that.n) return false;
+
+        return Arrays.deepEquals(this.grid, that.grid);
+    }
+
     // String representation of this board
     public String toString() {
         StringBuilder s = new StringBuilder();
@@ -127,14 +141,18 @@ public class Board {
 
     public static void main(String[] args) {
         // Hamming = 7, Manhattan = 13
-        int[] firstRow  = {4, 0, 5};
-        int[] secondRow = {1, 3, 8};
-        int[] thirdRow  = {7, 6, 2};
+        int[] firstRow1  = {4, 0, 5};
+        int[] secondRow1 = {1, 3, 8};
+        int[] thirdRow1  = {7, 6, 2};
 
         // Hamming = 6, Manhattan = 9
-        // int[] firstRow  = {1, 0, 2};
-        // int[] secondRow = {7, 5, 4};
-        // int[] thirdRow  = {8, 6, 3};
+        int[] firstRow2  = {1, 0, 2};
+        int[] secondRow2 = {7, 5, 4};
+        int[] thirdRow2  = {8, 6, 3};
+
+        int[] firstRow3  = {4, 0, 5};
+        int[] secondRow3 = {1, 3, 8};
+        int[] thirdRow3  = {7, 6, 2};
 
         // Goal board
         // Hamming = 0, Manhattan = 0
@@ -142,20 +160,29 @@ public class Board {
         // int[] secondRow = {4, 5, 6};
         // int[] thirdRow  = {7, 8, 0};
 
-        int[][] blocks = {firstRow, secondRow, thirdRow};
+        int[][] blocks1 = {firstRow1, secondRow1, thirdRow1};
+        int[][] blocks2 = {firstRow2, secondRow2, thirdRow2};
+        int[][] blocks3 = {firstRow3, secondRow3, thirdRow3};
 
-        Board myBoard = new Board(blocks);
+        Board myFirstBoard = new Board(blocks1);
+        Board mySecondBoard = new Board(blocks2);
+        Board myThirdBoard = new Board(blocks3);
 
-        String stringBoard = myBoard.toString();
+        String stringBoard = myFirstBoard.toString();
 
         System.out.println(stringBoard);
-        System.out.println(myBoard.hamming());
-        System.out.println(myBoard.manhattan());
-        System.out.println(myBoard.isGoal());
+        System.out.println(myFirstBoard.hamming());
+        System.out.println(myFirstBoard.manhattan());
+        System.out.println(myFirstBoard.isGoal());
 
-        Board myTwin = myBoard.twin();
+        Board myTwin = myFirstBoard.twin();
 
         String stringTwin = myTwin.toString();
         System.out.println(stringTwin);
+
+        System.out.println("Is myFirstBoard equals to myFirstBoard?: " + myFirstBoard.equals(myFirstBoard));
+        System.out.println("Is myFirstBoard equals to mySecondBoard?: " + myFirstBoard.equals(mySecondBoard));
+        System.out.println("Is myFirstBoard equals to myThirdBoard?: " + myFirstBoard.equals(myThirdBoard));
+        System.out.println("Is myFirstBoard equals to null?: " + myFirstBoard.equals(mySecondBoard));
     }
 }
