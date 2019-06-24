@@ -8,8 +8,8 @@
 import java.util.Arrays;
 
 public class Board {
-    int n; // Board dimension
-    int[][] grid;
+    private final int n; // Board dimension
+    private final int[][] grid;
 
     // Construct a board from an n-by-n array of blocks
     public Board(int[][] blocks) {
