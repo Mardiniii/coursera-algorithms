@@ -6,6 +6,9 @@
  **************************************************************************** */
 
 import java.util.Arrays;
+import java.util.Iterator;
+import edu.princeton.cs.algs4.Stack;
+import java.util.NoSuchElementException;
 
 public class Board {
     private final int n; // Board dimension
@@ -139,6 +142,92 @@ public class Board {
         return s.toString();
     }
 
+    // Returns all neighboring boards.
+    public Iterator<Board> neighbors() {
+        return new BoardIterator();
+    }
+
+    private class BoardIterator implements Iterator<Board> {
+        private final Stack<Board> stack;
+
+        private BoardIterator() {
+            stack = new Stack<Board>();
+            int blocks[][] = new int[n][n];
+            int zeroRow = -1;
+            int zeroCol = -1;
+            int temp;
+
+            for(int i = 0; i < n; i++) {
+                for(int j = 0; j < n; j++) {
+                    blocks[i][j] = grid[i][j];
+
+                    if (blocks[i][j] == 0) {
+                        zeroRow = i;
+                        zeroCol = j;
+                    }
+                }
+            }
+
+            if (zeroRow - 1 >= 0) {
+                temp = blocks[zeroRow - 1][zeroCol];
+                blocks[zeroRow - 1][zeroCol] = 0;
+                blocks[zeroRow][zeroCol] = temp;
+
+                stack.push(new Board(blocks));
+
+                blocks[zeroRow - 1][zeroCol] = temp;
+                blocks[zeroRow][zeroCol] = 0;
+            }
+
+            if (zeroRow + 1 < n) {
+                temp = blocks[zeroRow + 1][zeroCol];
+                blocks[zeroRow + 1][zeroCol] = 0;
+                blocks[zeroRow][zeroCol] = temp;
+
+                stack.push(new Board(blocks));
+
+                blocks[zeroRow + 1][zeroCol] = temp;
+                blocks[zeroRow][zeroCol] = 0;
+            }
+
+            if (zeroCol - 1 >= 0) {
+                temp = blocks[zeroRow][zeroCol - 1];
+                blocks[zeroRow][zeroCol - 1] = 0;
+                blocks[zeroRow][zeroCol] = temp;
+
+                stack.push(new Board(blocks));
+
+                blocks[zeroRow][zeroCol - 1] = temp;
+                blocks[zeroRow][zeroCol] = 0;
+            }
+
+            if (zeroCol + 1 < n) {
+                temp = blocks[zeroRow][zeroCol + 1];
+                blocks[zeroRow][zeroCol + 1] = 0;
+                blocks[zeroRow][zeroCol] = temp;
+
+                stack.push(new Board(blocks));
+
+                blocks[zeroRow][zeroCol + 1] = temp;
+                blocks[zeroRow][zeroCol] = 0;
+            }
+        }
+
+        public boolean hasNext() {
+            return !stack.isEmpty();
+        }
+
+        public void remove() {
+            throw new UnsupportedOperationException("This method is not implemented.");
+        }
+
+        public Board next() {
+            if (stack.isEmpty()) throw new NoSuchElementException("No more boards to be returned.");
+
+            return stack.pop();
+        }
+    }
+
     public static void main(String[] args) {
         // Hamming = 7, Manhattan = 13
         int[] firstRow1  = {4, 0, 5};
@@ -184,5 +273,20 @@ public class Board {
         System.out.println("Is myFirstBoard equals to mySecondBoard?: " + myFirstBoard.equals(mySecondBoard));
         System.out.println("Is myFirstBoard equals to myThirdBoard?: " + myFirstBoard.equals(myThirdBoard));
         System.out.println("Is myFirstBoard equals to null?: " + myFirstBoard.equals(mySecondBoard));
+
+        int[] firstRow  = {0, 4, 5};
+        int[] secondRow = {1, 3, 8};
+        int[] thirdRow  = {7, 6, 2};
+        int[][] blocks = {firstRow, secondRow, thirdRow};
+        Board myBoard = new Board(blocks);
+
+        Iterator<Board> i = myBoard.neighbors();
+
+        while (i.hasNext()) {
+            Board board = i.next();
+
+            stringBoard = board.toString();
+            System.out.println(stringBoard);
+        }
     }
 }
