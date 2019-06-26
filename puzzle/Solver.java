@@ -8,6 +8,7 @@
 import edu.princeton.cs.algs4.MinPQ;
 
 import java.util.Iterator;
+import java.util.Comparator;
 
 public class Solver {
     private MinPQ<SearchNode> minPriorityQueue;
@@ -27,7 +28,9 @@ public class Solver {
                 int aPriority = a.board.manhattan() + a.moves;
                 int bPriority = b.board.manhattan() + b.moves;
 
-                return aPriority.compareTo(bPriority);
+                if (aPriority < bPriority) return -1;
+                if (aPriority > bPriority) return 1;
+                return 0;
             }
         }
 
@@ -36,7 +39,9 @@ public class Solver {
                 int aPriority = a.board.hamming() + a.moves;
                 int bPriority = b.board.hamming() + b.moves;
 
-                return aPriority.compareTo(bPriority);
+                if (aPriority < bPriority) return -1;
+                if (aPriority > bPriority) return 1;
+                return 0;
             }
         }
     }
