@@ -40,6 +40,12 @@ public class Solver {
         return lastSearchNode != null;
     }
 
+    public int moves() {
+        if (isSolvable()) return lastSearchNode.moves;
+
+        return -1;
+    }
+
     private static class SearchNode {
         public static final Comparator<SearchNode> BY_MANHATTAN_PRIORITY = new ByManhattanPriority();
         public static final Comparator<SearchNode> BY_HAMMING_PRIORITY = new ByHammingPriority();
