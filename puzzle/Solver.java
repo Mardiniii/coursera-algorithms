@@ -14,6 +14,32 @@ public class Solver {
     private SearchNode lastSearchNode;
     private int moves;
 
+    public Solver(Board initialBoard) {
+        if (initialBoard == null) {
+            throw new IllegalArgumentException("Initial board cannot be null!");
+        }
+
+        SearchNode initialSearchNode     = new SearchNode(initialBoard);
+        SearchNode initialTwinSearchNode = new SearchNode(initialBoard.twin());
+
+        MinPQ<SearchNode> minPQ     = new MinPQ<SearchNode>(SearchNode.BY_MANHATTAN_PRIORITY);
+        MinPQ<SearchNode> minTwinPQ = new MinPQ<SearchNode>(SearchNode.BY_MANHATTAN_PRIORITY);
+
+        minPQ.insert(initialSearchNode);
+        minTwinPQ.insert(initialTwinSearchNode);
+
+        while (true) {
+            lastSearchNode = solve(minPQ);
+
+            if (lastSearchNode != null || solve(minTwinPQ) != null) return;
+
+        }
+    }
+
+    public boolean isSolvable() {
+        return lastSearchNode != null;
+    }
+
     private static class SearchNode {
         public static final Comparator<SearchNode> BY_MANHATTAN_PRIORITY = new ByManhattanPriority();
         public static final Comparator<SearchNode> BY_HAMMING_PRIORITY = new ByHammingPriority();
@@ -54,29 +80,6 @@ public class Solver {
             }
         }
     }
-
-    public Solver(Board initialBoard) {
-        if (initialBoard == null) {
-            throw new IllegalArgumentException("Initial board cannot be null!");
-        }
-
-        SearchNode initialSearchNode     = new SearchNode(initialBoard);
-        SearchNode initialTwinSearchNode = new SearchNode(initialBoard.twin());
-
-        MinPQ<SearchNode> minPQ     = new MinPQ<SearchNode>(SearchNode.BY_MANHATTAN_PRIORITY);
-        MinPQ<SearchNode> minTwinPQ = new MinPQ<SearchNode>(SearchNode.BY_MANHATTAN_PRIORITY);
-
-        minPQ.insert(initialSearchNode);
-        minTwinPQ.insert(initialTwinSearchNode);
-
-        while (true) {
-            lastSearchNode = solve(minPQ);
-
-            if (lastSearchNode != null || solve(minTwinPQ) != null) return;
-
-        }
-    }
-
 
     private SearchNode solve(MinPQ<SearchNode> minPriorityQueue) {
         if (minPriorityQueue.isEmpty()) return null;
