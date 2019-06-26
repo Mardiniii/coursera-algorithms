@@ -10,20 +10,20 @@ import edu.princeton.cs.algs4.MinPQ;
 import java.util.Iterator;
 
 public class Solver {
-    private MinPQ<searchNode> minPriorityQueue;
-    private searchNode initialSearchNode;
+    private MinPQ<SearchNode> minPriorityQueue;
+    private SearchNode initialSearchNode;
     private int moves;
 
     private static class SearchNode {
-        public static final Comparator<searchNode> BY_MANHATTAN = new ByManhattan();
-        public static final Comparator<searchNode> BY_HAMMING = new ByHamming();
+        public static final Comparator<SearchNode> BY_MANHATTAN = new ByManhattan();
+        public static final Comparator<SearchNode> BY_HAMMING = new ByHamming();
 
         private int moves;
         private Board board;
-        private searchNode next;
+        private SearchNode next;
 
-        private static class ByManhattan implements Comparator<searchNode> {
-            public int compare(searchNode a, searchNode b) {
+        private static class ByManhattan implements Comparator<SearchNode> {
+            public int compare(SearchNode a, SearchNode b) {
                 int aPriority = a.board.manhattan() + a.moves;
                 int bPriority = b.board.manhattan() + b.moves;
 
@@ -31,8 +31,8 @@ public class Solver {
             }
         }
 
-        private static class ByHamming implements Comparator<searchNode> {
-            public int compare(searchNode a, searchNode b) {
+        private static class ByHamming implements Comparator<SearchNode> {
+            public int compare(SearchNode a, SearchNode b) {
                 int aPriority = a.board.hamming() + a.moves;
                 int bPriority = b.board.hamming() + b.moves;
 
