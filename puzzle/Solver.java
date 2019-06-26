@@ -16,14 +16,14 @@ public class Solver {
     private int moves;
 
     private static class SearchNode {
-        public static final Comparator<SearchNode> BY_MANHATTAN = new ByManhattan();
-        public static final Comparator<SearchNode> BY_HAMMING = new ByHamming();
+        public static final Comparator<SearchNode> BY_MANHATTAN_PRIORITY = new ByManhattanPriority();
+        public static final Comparator<SearchNode> BY_HAMMING_PRIORITY = new ByHammingPriority();
 
         private int moves;
         private Board board;
         private SearchNode next;
 
-        private static class ByManhattan implements Comparator<SearchNode> {
+        private static class ByManhattanPriority implements Comparator<SearchNode> {
             public int compare(SearchNode a, SearchNode b) {
                 int aPriority = a.board.manhattan() + a.moves;
                 int bPriority = b.board.manhattan() + b.moves;
@@ -34,7 +34,7 @@ public class Solver {
             }
         }
 
-        private static class ByHamming implements Comparator<SearchNode> {
+        private static class ByHammingPriority implements Comparator<SearchNode> {
             public int compare(SearchNode a, SearchNode b) {
                 int aPriority = a.board.hamming() + a.moves;
                 int bPriority = b.board.hamming() + b.moves;
