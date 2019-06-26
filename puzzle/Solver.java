@@ -11,8 +11,7 @@ import java.util.Iterator;
 import java.util.Comparator;
 
 public class Solver {
-    private MinPQ<SearchNode> minPriorityQueue;
-    private SearchNode initialSearchNode;
+    private SearchNode lastSearchNode;
     private int moves;
 
     private static class SearchNode {
@@ -60,8 +59,41 @@ public class Solver {
         if (initialBoard == null) {
             throw new IllegalArgumentException("Initial board cannot be null!");
         }
+
+        SearchNode initialSearchNode     = new SearchNode(initialBoard);
+        SearchNode initialTwinSearchNode = new SearchNode(initialBoard.twin());
+
+        MinPQ<SearchNode> minPQ     = new MinPQ<SearchNode>(SearchNode.BY_MANHATTAN_PRIORITY);
+        MinPQ<SearchNode> minTwinPQ = new MinPQ<SearchNode>(SearchNode.BY_MANHATTAN_PRIORITY);
+
+        minPQ.insert(initialSearchNode);
+        minTwinPQ.insert(initialTwinSearchNode);
+
+        while (true) {
+            lastSearchNode = solve(minPQ);
+
+            if (lastSearchNode != null || solve(minTwinPQ) != null) return;
+
+        }
+    }
+
+
+    private SearchNode solve(MinPQ<SearchNode> minPriorityQueue) {
+        if (minPriorityQueue.isEmpty()) return null;
+        SearchNode currentNode = minPriorityQueue.delMin();
+
+        if (currentNode.board.isGoal()) return currentNode;
+
+        for (Board board : currentNode.board.neighbors()) {
+            if (currentNode.previous == null || !board.equals(currentNode.previous.board)) {
+                minPriorityQueue.insert(new SearchNode(board, currentNode));
+            }
+        }
+
+        return null;
     }
 
     public static void main(String[] args) {
+
     }
 }
