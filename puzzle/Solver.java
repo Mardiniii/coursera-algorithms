@@ -6,6 +6,7 @@
  **************************************************************************** */
 
 import edu.princeton.cs.algs4.MinPQ;
+import edu.princeton.cs.algs4.Stack;
 
 import java.util.Iterator;
 import java.util.Comparator;
@@ -36,6 +37,21 @@ public class Solver {
         }
     }
 
+    private SearchNode solve(MinPQ<SearchNode> minPriorityQueue) {
+        if (minPriorityQueue.isEmpty()) return null;
+        SearchNode currentNode = minPriorityQueue.delMin();
+
+        if (currentNode.board.isGoal()) return currentNode;
+
+        for (Board board : currentNode.board.neighbors()) {
+            if (currentNode.previous == null || !board.equals(currentNode.previous.board)) {
+                minPriorityQueue.insert(new SearchNode(board, currentNode));
+            }
+        }
+
+        return null;
+    }
+
     public boolean isSolvable() {
         return lastSearchNode != null;
     }
@@ -44,6 +60,21 @@ public class Solver {
         if (isSolvable()) return lastSearchNode.moves;
 
         return -1;
+    }
+
+    public Iterable<Board> solution() {
+        if (!isSolvable()) return null;
+
+        Stack<Board> stack = new Stack<Board>();
+        SearchNode currentNode = lastSearchNode;
+        stack.push(currentNode.board);
+
+        while(currentNode != null) {
+            stack.push(currentNode.previous.board);
+            currentNode = currentNode.previous;
+        }
+
+        return stack;
     }
 
     private static class SearchNode {
@@ -85,21 +116,6 @@ public class Solver {
                 return 0;
             }
         }
-    }
-
-    private SearchNode solve(MinPQ<SearchNode> minPriorityQueue) {
-        if (minPriorityQueue.isEmpty()) return null;
-        SearchNode currentNode = minPriorityQueue.delMin();
-
-        if (currentNode.board.isGoal()) return currentNode;
-
-        for (Board board : currentNode.board.neighbors()) {
-            if (currentNode.previous == null || !board.equals(currentNode.previous.board)) {
-                minPriorityQueue.insert(new SearchNode(board, currentNode));
-            }
-        }
-
-        return null;
     }
 
     public static void main(String[] args) {
