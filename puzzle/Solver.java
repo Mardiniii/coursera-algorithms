@@ -5,7 +5,17 @@
  *  the A* algorithm.
  **************************************************************************** */
 
+import edu.princeton.cs.algs4.MinPQ;
+
+import java.util.Iterator;
+
 public class Solver {
+    private static class searchNode {
+        private Board board;
+        private int moves;
+        private searchNode next;
+    }
+
     public static void main(String[] args) {
 
     }
