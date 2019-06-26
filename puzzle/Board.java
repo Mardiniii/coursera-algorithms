@@ -143,89 +143,70 @@ public class Board {
     }
 
     // Returns all neighboring boards.
-    public Iterator<Board> neighbors() {
-        return new BoardIterator();
-    }
+    public Iterable<Board> neighbors() {
+        Stack<Board> stack = new Stack<Board>();
 
-    private class BoardIterator implements Iterator<Board> {
-        private final Stack<Board> stack;
+        int blocks[][] = new int[n][n];
+        int zeroRow = -1;
+        int zeroCol = -1;
+        int temp;
 
-        private BoardIterator() {
-            stack = new Stack<Board>();
-            int blocks[][] = new int[n][n];
-            int zeroRow = -1;
-            int zeroCol = -1;
-            int temp;
+        for(int i = 0; i < n; i++) {
+            for(int j = 0; j < n; j++) {
+                blocks[i][j] = grid[i][j];
 
-            for(int i = 0; i < n; i++) {
-                for(int j = 0; j < n; j++) {
-                    blocks[i][j] = grid[i][j];
-
-                    if (blocks[i][j] == 0) {
-                        zeroRow = i;
-                        zeroCol = j;
-                    }
+                if (blocks[i][j] == 0) {
+                    zeroRow = i;
+                    zeroCol = j;
                 }
             }
-
-            if (zeroRow - 1 >= 0) {
-                temp = blocks[zeroRow - 1][zeroCol];
-                blocks[zeroRow - 1][zeroCol] = 0;
-                blocks[zeroRow][zeroCol] = temp;
-
-                stack.push(new Board(blocks));
-
-                blocks[zeroRow - 1][zeroCol] = temp;
-                blocks[zeroRow][zeroCol] = 0;
-            }
-
-            if (zeroRow + 1 < n) {
-                temp = blocks[zeroRow + 1][zeroCol];
-                blocks[zeroRow + 1][zeroCol] = 0;
-                blocks[zeroRow][zeroCol] = temp;
-
-                stack.push(new Board(blocks));
-
-                blocks[zeroRow + 1][zeroCol] = temp;
-                blocks[zeroRow][zeroCol] = 0;
-            }
-
-            if (zeroCol - 1 >= 0) {
-                temp = blocks[zeroRow][zeroCol - 1];
-                blocks[zeroRow][zeroCol - 1] = 0;
-                blocks[zeroRow][zeroCol] = temp;
-
-                stack.push(new Board(blocks));
-
-                blocks[zeroRow][zeroCol - 1] = temp;
-                blocks[zeroRow][zeroCol] = 0;
-            }
-
-            if (zeroCol + 1 < n) {
-                temp = blocks[zeroRow][zeroCol + 1];
-                blocks[zeroRow][zeroCol + 1] = 0;
-                blocks[zeroRow][zeroCol] = temp;
-
-                stack.push(new Board(blocks));
-
-                blocks[zeroRow][zeroCol + 1] = temp;
-                blocks[zeroRow][zeroCol] = 0;
-            }
         }
 
-        public boolean hasNext() {
-            return !stack.isEmpty();
+        if (zeroRow - 1 >= 0) {
+            temp = blocks[zeroRow - 1][zeroCol];
+            blocks[zeroRow - 1][zeroCol] = 0;
+            blocks[zeroRow][zeroCol] = temp;
+
+            stack.push(new Board(blocks));
+
+            blocks[zeroRow - 1][zeroCol] = temp;
+            blocks[zeroRow][zeroCol] = 0;
         }
 
-        public void remove() {
-            throw new UnsupportedOperationException("This method is not implemented.");
+        if (zeroRow + 1 < n) {
+            temp = blocks[zeroRow + 1][zeroCol];
+            blocks[zeroRow + 1][zeroCol] = 0;
+            blocks[zeroRow][zeroCol] = temp;
+
+            stack.push(new Board(blocks));
+
+            blocks[zeroRow + 1][zeroCol] = temp;
+            blocks[zeroRow][zeroCol] = 0;
         }
 
-        public Board next() {
-            if (stack.isEmpty()) throw new NoSuchElementException("No more boards to be returned.");
+        if (zeroCol - 1 >= 0) {
+            temp = blocks[zeroRow][zeroCol - 1];
+            blocks[zeroRow][zeroCol - 1] = 0;
+            blocks[zeroRow][zeroCol] = temp;
 
-            return stack.pop();
+            stack.push(new Board(blocks));
+
+            blocks[zeroRow][zeroCol - 1] = temp;
+            blocks[zeroRow][zeroCol] = 0;
         }
+
+        if (zeroCol + 1 < n) {
+            temp = blocks[zeroRow][zeroCol + 1];
+            blocks[zeroRow][zeroCol + 1] = 0;
+            blocks[zeroRow][zeroCol] = temp;
+
+            stack.push(new Board(blocks));
+
+            blocks[zeroRow][zeroCol + 1] = temp;
+            blocks[zeroRow][zeroCol] = 0;
+        }
+
+        return stack;
     }
 
     public static void main(String[] args) {
@@ -280,11 +261,7 @@ public class Board {
         int[][] blocks = {firstRow, secondRow, thirdRow};
         Board myBoard = new Board(blocks);
 
-        Iterator<Board> i = myBoard.neighbors();
-
-        while (i.hasNext()) {
-            Board board = i.next();
-
+        for (Board board : myBoard.neighbors()) {
             stringBoard = board.toString();
             System.out.println(stringBoard);
         }
