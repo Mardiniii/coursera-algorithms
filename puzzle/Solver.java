@@ -10,6 +10,10 @@ import edu.princeton.cs.algs4.MinPQ;
 import java.util.Iterator;
 
 public class Solver {
+    private MinPQ<searchNode> minPriorityQueue;
+    private searchNode initialSearchNode;
+    private int moves;
+
     private static class SearchNode {
         public static final Comparator<searchNode> BY_MANHATTAN = new ByManhattan();
         public static final Comparator<searchNode> BY_HAMMING = new ByHamming();
