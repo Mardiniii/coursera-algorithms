@@ -21,7 +21,17 @@ public class Solver {
 
         private int moves;
         private Board board;
-        private SearchNode next;
+        private SearchNode previous;
+
+        public SearchNode(Board board) {
+            this.board = board;
+        }
+
+        public SearchNode(Board board, SearchNode previousSearchNode) {
+            this.board = board;
+            this.previous = previousSearchNode;
+            this.moves = previousSearchNode.moves + 1;
+        }
 
         private static class ByManhattanPriority implements Comparator<SearchNode> {
             public int compare(SearchNode a, SearchNode b) {
