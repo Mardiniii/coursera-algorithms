@@ -41,6 +41,12 @@ public class Solver {
         }
     }
 
+    public Solver(Board initialBoard) {
+        if (initialBoard == null) {
+            throw new IllegalArgumentException("Initial board cannot be null!");
+        }
+    }
+
     public static void main(String[] args) {
     }
 }
