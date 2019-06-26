@@ -79,10 +79,9 @@ public class Board {
         for(int i = 0; i < n; i++) {
             for(int j = 0; j < n; j++) {
                 int currentBlock = grid[i][j];
-                int targetX = (currentBlock - 1) / n;
-                int targetY = (currentBlock - 1) % n;
+                int expectedBlock = i * dimension() + j + 1;
 
-                if (currentBlock != 0 && targetX != i && targetY != j)
+                if (currentBlock != 0 && currentBlock != expectedBlock)
                     return false;
             }
         }
@@ -226,17 +225,22 @@ public class Board {
 
         // Goal board
         // Hamming = 0, Manhattan = 0
-        // int[] firstRow  = {1, 2, 3};
-        // int[] secondRow = {4, 5, 6};
-        // int[] thirdRow  = {7, 8, 0};
+        int[] firstRow  = {1, 2, 3};
+        int[] secondRow = {4, 5, 6};
+        int[] thirdRow  = {7, 8, 0};
 
         int[][] blocks1 = {firstRow1, secondRow1, thirdRow1};
         int[][] blocks2 = {firstRow2, secondRow2, thirdRow2};
         int[][] blocks3 = {firstRow3, secondRow3, thirdRow3};
+        int[][] blocks = {firstRow, secondRow, thirdRow};
 
         Board myFirstBoard = new Board(blocks1);
         Board mySecondBoard = new Board(blocks2);
         Board myThirdBoard = new Board(blocks3);
+        Board myBoard = new Board(blocks);
+
+        System.out.println("Is it goal myThirdBoard?: " + myThirdBoard.isGoal());
+        System.out.println("Is it goal myBoard?: " + myBoard.isGoal());
 
         String stringBoard = myFirstBoard.toString();
 
@@ -255,15 +259,15 @@ public class Board {
         System.out.println("Is myFirstBoard equals to myThirdBoard?: " + myFirstBoard.equals(myThirdBoard));
         System.out.println("Is myFirstBoard equals to null?: " + myFirstBoard.equals(mySecondBoard));
 
-        int[] firstRow  = {0, 4, 5};
-        int[] secondRow = {1, 3, 8};
-        int[] thirdRow  = {7, 6, 2};
-        int[][] blocks = {firstRow, secondRow, thirdRow};
-        Board myBoard = new Board(blocks);
+        // int[] firstRow  = {0, 4, 5};
+        // int[] secondRow = {1, 3, 8};
+        // int[] thirdRow  = {7, 6, 2};
+        // int[][] blocks = {firstRow, secondRow, thirdRow};
+        // int[] myBoard = new Board(blocks);
 
-        for (Board board : myBoard.neighbors()) {
-            stringBoard = board.toString();
-            System.out.println(stringBoard);
-        }
+        // for (Board board : myBoard.neighbors()) {
+        //     stringBoard = board.toString();
+        //     System.out.println(stringBoard);
+        // }
     }
 }
