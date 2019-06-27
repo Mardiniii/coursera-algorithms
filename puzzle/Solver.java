@@ -10,12 +10,10 @@ import edu.princeton.cs.algs4.Stack;
 import edu.princeton.cs.algs4.StdOut;
 import edu.princeton.cs.algs4.In;
 
-import java.util.Iterator;
 import java.util.Comparator;
 
 public class Solver {
     private SearchNode lastSearchNode;
-    private int moves;
 
     public Solver(Board initialBoard) {
         if (initialBoard == null) {
@@ -69,7 +67,7 @@ public class Solver {
         Stack<Board> stack = new Stack<Board>();
         SearchNode currentNode = lastSearchNode;
 
-        while(currentNode != null) {
+        while (currentNode != null) {
             stack.push(currentNode.board);
             currentNode = currentNode.previous;
         }
@@ -79,43 +77,43 @@ public class Solver {
 
     private static class SearchNode {
         public static final Comparator<SearchNode> BY_MANHATTAN_PRIORITY = new ByManhattanPriority();
-        public static final Comparator<SearchNode> BY_HAMMING_PRIORITY = new ByHammingPriority();
+        // public static final Comparator<SearchNode> BY_HAMMING_PRIORITY = new ByHammingPriority();
 
         private int moves;
-        private Board board;
+        private final Board board;
         private SearchNode previous;
+        private final int priorityFunction;
 
         public SearchNode(Board board) {
             this.board = board;
+            this.priorityFunction = board.manhattan();
         }
 
         public SearchNode(Board board, SearchNode previousSearchNode) {
             this.board = board;
             this.previous = previousSearchNode;
             this.moves = previousSearchNode.moves + 1;
+            this.priorityFunction = board.manhattan() + moves;
         }
 
         private static class ByManhattanPriority implements Comparator<SearchNode> {
             public int compare(SearchNode a, SearchNode b) {
-                int aPriority = a.board.manhattan() + a.moves;
-                int bPriority = b.board.manhattan() + b.moves;
-
-                if (aPriority < bPriority) return -1;
-                if (aPriority > bPriority) return 1;
+                if (a.priorityFunction < b.priorityFunction) return -1;
+                if (a.priorityFunction > b.priorityFunction) return 1;
                 return 0;
             }
         }
 
-        private static class ByHammingPriority implements Comparator<SearchNode> {
-            public int compare(SearchNode a, SearchNode b) {
-                int aPriority = a.board.hamming() + a.moves;
-                int bPriority = b.board.hamming() + b.moves;
-
-                if (aPriority < bPriority) return -1;
-                if (aPriority > bPriority) return 1;
-                return 0;
-            }
-        }
+        // private static class ByHammingPriority implements Comparator<SearchNode> {
+        //     public int compare(SearchNode a, SearchNode b) {
+        //         int aPriority = a.board.hamming() + a.moves;
+        //         int bPriority = b.board.hamming() + b.moves;
+        //
+        //         if (aPriority < bPriority) return -1;
+        //         if (aPriority > bPriority) return 1;
+        //         return 0;
+        //     }
+        // }
     }
 
     public static void main(String[] args) {
