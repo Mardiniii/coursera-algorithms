@@ -6,9 +6,7 @@
  **************************************************************************** */
 
 import java.util.Arrays;
-import java.util.Iterator;
 import edu.princeton.cs.algs4.Stack;
-import java.util.NoSuchElementException;
 
 public class Board {
     private final int n; // Board dimension
@@ -19,8 +17,8 @@ public class Board {
         this.n = blocks.length;
         this.grid = new int[n][n];
 
-        for(int i = 0; i < n; i++) {
-            for(int j = 0; j < n; j++) {
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
                 grid[i][j] = blocks[i][j];
             }
         }
@@ -37,9 +35,9 @@ public class Board {
         int expectedBlock = 1;
         int blocksCounter = 0;
 
-        for(int i = 0; i < n; i++) {
-            for(int j = 0; j < n; j++) {
-                if(grid[i][j] != 0 && grid[i][j] != expectedBlock)
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                if (grid[i][j] != 0 && grid[i][j] != expectedBlock)
                     blocksCounter++;
 
                 expectedBlock++;
@@ -55,11 +53,11 @@ public class Board {
         int manhattanDistanceSum = 0;
         int expectedBlock = 1;
 
-        for(int i = 0; i < n; i++) {
-            for(int j = 0; j < n; j++) {
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
                 int currentBlock = grid[i][j];
 
-                if(currentBlock != 0 && currentBlock != expectedBlock) {
+                if (currentBlock != 0 && currentBlock != expectedBlock) {
                     int targetX = (currentBlock - 1) / n;
                     int targetY = (currentBlock - 1) % n;
                     int dx = i - targetX;
@@ -76,8 +74,8 @@ public class Board {
 
     // Returns `true` or `false` if this board is the goal board.
     public boolean isGoal() {
-        for(int i = 0; i < n; i++) {
-            for(int j = 0; j < n; j++) {
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
                 int currentBlock = grid[i][j];
                 int expectedBlock = i * dimension() + j + 1;
 
@@ -90,17 +88,17 @@ public class Board {
     }
 
     public Board twin() {
-        int blocks[][] = new int[n][n];
+        int[][] blocks = new int[n][n];
 
-        for(int i = 0; i < n; i++) {
-            for(int j = 0; j < n; j++) {
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
                 blocks[i][j] = grid[i][j];
             }
         }
 
         outerloop:
-        for(int i = 0; i < n; i++) {
-            for(int j = 0; j < n; j++) {
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
                 int currentBlock = blocks[i][j];
 
                 if (currentBlock != 0 && j + 1 < n && blocks[i][j+1] != 0) {
@@ -145,13 +143,13 @@ public class Board {
     public Iterable<Board> neighbors() {
         Stack<Board> stack = new Stack<Board>();
 
-        int blocks[][] = new int[n][n];
+        int[][] blocks = new int[n][n];
         int zeroRow = -1;
         int zeroCol = -1;
         int temp;
 
-        for(int i = 0; i < n; i++) {
-            for(int j = 0; j < n; j++) {
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
                 blocks[i][j] = grid[i][j];
 
                 if (blocks[i][j] == 0) {
