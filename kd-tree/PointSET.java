@@ -6,6 +6,8 @@
  **************************************************************************** */
 
 import edu.princeton.cs.algs4.Point2D;
+import edu.princeton.cs.algs4.Queue;
+import edu.princeton.cs.algs4.RectHV;
 import edu.princeton.cs.algs4.SET;
 import java.util.Iterator;
 
@@ -46,6 +48,20 @@ public class PointSET {
             Point2D p = i.next();
             p.draw();
         }
+    }
+
+    // Returns an `Iterable<Point2D>` with all the points that are inside the
+    // rectangle (or on the boundary).
+    public Iterable<Point2D> range(RectHV rect) {
+        Queue<Point2D> points = new Queue<Point2D>();
+        Iterator<Point2D> i = tree.iterator();
+
+        while (i.hasNext()) {
+            Point2D p = i.next();
+            if (rect.contains(p)) points.enqueue(p);
+        }
+
+        return points;
     }
 
     public static void main(String[] args) {
