@@ -26,6 +26,12 @@ public class PointSET {
         return tree.size();
     }
 
+    // Add the given point to the `PointSET` if the key is not already present
+    // in the set
+    public void insert(Point2D p) {
+        tree.add(p);
+    }
+
     public static void main(String[] args) {
 
     }
