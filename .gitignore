@@ -19,3 +19,8 @@ collinear/*
 puzzle/*
 !puzzle/Board.java
 !puzzle/Solver.java
+
+# Do not ignore Kd-Tree files
+kd-tree/*
+!kd-tree/PointSET.java
+!kd-tree/KdTree.java
