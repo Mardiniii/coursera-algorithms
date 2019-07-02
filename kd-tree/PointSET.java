@@ -27,9 +27,14 @@ public class PointSET {
     }
 
     // Add the given point to the `PointSET` if the key is not already present
-    // in the set
+    // in the set.
     public void insert(Point2D p) {
         tree.add(p);
+    }
+
+    // Returns `true` or `false` if the `PointSET` contains the given point.
+    public boolean contains(Point2D p) {
+        return tree.contains(p);
     }
 
     public static void main(String[] args) {
