@@ -7,6 +7,7 @@
 
 import edu.princeton.cs.algs4.Point2D;
 import edu.princeton.cs.algs4.SET;
+import java.util.Iterator;
 
 public class PointSET {
     private SET<Point2D> tree;
@@ -35,6 +36,16 @@ public class PointSET {
     // Returns `true` or `false` if the `PointSET` contains the given point.
     public boolean contains(Point2D p) {
         return tree.contains(p);
+    }
+
+    // Draw all points to standard draw.
+    public void draw() {
+        Iterator<Point2D> i = tree.iterator();
+
+        while (i.hasNext()) {
+            Point2D p = i.next();
+            p.draw();
+        }
     }
 
     public static void main(String[] args) {
