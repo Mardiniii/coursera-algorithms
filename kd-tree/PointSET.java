@@ -64,6 +64,29 @@ public class PointSET {
         return points;
     }
 
+    // Returns the nearest neighbor in the set to point p and null if the set is
+    // empty.
+    public Point2D nearest(Point2D p) {
+        Iterator<Point2D> i = tree.iterator();
+
+        Point2D currentPoint = i.next();
+        Point2D nearest = currentPoint;
+
+        double minimumDistance = p.distanceTo(currentPoint);
+
+        while (i.hasNext()) {
+            currentPoint = i.next();
+            double currentDistance = p.distanceTo(currentPoint);
+
+            if (currentDistance < minimumDistance) {
+                minimumDistance = currentDistance;
+                nearest = currentPoint;
+            }
+        }
+
+        return nearest;
+    }
+
     public static void main(String[] args) {
 
     }
