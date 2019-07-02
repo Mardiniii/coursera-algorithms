@@ -32,11 +32,19 @@ public class PointSET {
     // Add the given point to the `PointSET` if the key is not already present
     // in the set.
     public void insert(Point2D p) {
+        if (p == null) {
+            throw new IllegalArgumentException("Argument cannot be null!");
+        }
+
         tree.add(p);
     }
 
     // Returns `true` or `false` if the `PointSET` contains the given point.
     public boolean contains(Point2D p) {
+        if (p == null) {
+            throw new IllegalArgumentException("Argument cannot be null!");
+        }
+
         return tree.contains(p);
     }
 
@@ -53,6 +61,10 @@ public class PointSET {
     // Returns an `Iterable<Point2D>` with all the points that are inside the
     // rectangle (or on the boundary).
     public Iterable<Point2D> range(RectHV rect) {
+        if (rect == null) {
+            throw new IllegalArgumentException("Argument cannot be null!");
+        }
+
         Queue<Point2D> points = new Queue<Point2D>();
         Iterator<Point2D> i = tree.iterator();
 
@@ -67,6 +79,10 @@ public class PointSET {
     // Returns the nearest neighbor in the set to point p and null if the set is
     // empty.
     public Point2D nearest(Point2D p) {
+        if (p == null) {
+            throw new IllegalArgumentException("Argument cannot be null!");
+        }
+
         Iterator<Point2D> i = tree.iterator();
 
         Point2D currentPoint = i.next();
