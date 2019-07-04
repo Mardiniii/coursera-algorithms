@@ -104,6 +104,33 @@ public class PointSET {
     }
 
     public static void main(String[] args) {
+        Point2D p0 = new Point2D(0, 0);
+        Point2D p1 = new Point2D(0.2, 0.2);
+        Point2D p2 = new Point2D(0.2, 0.4);
+        Point2D p3 = new Point2D(0.3, 0.2);
+        Point2D p4 = new Point2D(0.5, 0.5);
+        Point2D p5 = new Point2D(1.0, 1.0);
 
+        System.out.println(p1.distanceTo(p2));
+
+        PointSET pointSet = new PointSET();
+        pointSet.insert(p1);
+        pointSet.insert(p2);
+        pointSet.insert(p3);
+        pointSet.insert(p4);
+        pointSet.insert(p5);
+
+        System.out.println("Point set size: " + pointSet.size());
+        System.out.println("Contains p0?: " + pointSet.contains(p0));
+        System.out.println("Contains p3?: " + pointSet.contains(p3));
+
+        RectHV rect = new RectHV(0.1, 0.1, 0.4, 0.3);
+        Iterable<Point2D> range = pointSet.range(rect);
+
+        for (Point2D p : range) {
+            System.out.println(p);
+        }
+
+        System.out.println("Nearest point to p0?: " + pointSet.nearest(p0));
     }
 }
