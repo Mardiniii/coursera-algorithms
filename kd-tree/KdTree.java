@@ -5,7 +5,17 @@
  *  in the unit square by using a 2d-Tree.
  **************************************************************************** */
 
+import edu.princeton.cs.algs4.Point2D;
+
 public class KdTree {
+
+    private static class Node {
+        Point2D point;
+        boolean topBottom;
+        Node left;
+        Node right;
+    }
+
     public static void main(String[] args) {
 
     }
