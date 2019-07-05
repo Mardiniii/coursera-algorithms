@@ -21,12 +21,17 @@ public class KdTree {
         Node right;
     }
 
-    // Return `true` or `false` if the `Kd-Tree` is empty or not.
+    // Create a new `KdTree` object with a `null` root.
+    public KdTree() {
+        root = null;
+    }
+
+    // Return `true` or `false` if the `KdTree` is empty or not.
     public boolean isEmpty() {
         return size == 0;
     }
 
-    // Return the number of points in the `Kd-Tree`.
+    // Return the number of points in the `KdTree`.
     public int size() {
         return size;
     }
