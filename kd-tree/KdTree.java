@@ -21,6 +21,11 @@ public class KdTree {
         Node right;
     }
 
+    // Return `true` or `false` if the `Kd-Tree` is empty or not.
+    public boolean isEmpty() {
+        return size == 0;
+    }
+
     public static void main(String[] args) {
 
     }
