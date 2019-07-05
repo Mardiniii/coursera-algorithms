@@ -108,6 +108,29 @@ public class KdTree {
         }
     }
 
+    // Returns `true` or `false` if the `KdTree` contains the given point.
+    public boolean contains(Point2D p) {
+        if (p == null) {
+            throw new IllegalArgumentException("Argument cannot be null!");
+        }
+
+        Node currentNode = root;
+
+        while(currentNode != null) {
+            if (p.equals(currentNode.point)) return true;
+
+            if (currentNode.division == VERTICAL) {
+                if (p.x() < currentNode.point.x()) currentNode = currentNode.left;
+                else currentNode = currentNode.right;
+            } else {
+                if (p.y() < currentNode.point.y()) currentNode = currentNode.left;
+                else currentNode = currentNode.right;
+            }
+        }
+
+        return false;
+    }
+
     public static void main(String[] args) {
         Point2D p0 = new Point2D(0, 0);
         Point2D p1 = new Point2D(0.2, 0.2);
@@ -117,13 +140,21 @@ public class KdTree {
         Point2D p5 = new Point2D(1.0, 1.0);
 
         KdTree kdTree = new KdTree();
+
+        System.out.println("Is the Kd Tree empty? (true): " + kdTree.isEmpty());
+        System.out.println("Does the empty Kd-Tree contain p1? (false): " + kdTree.contains(p1));
+
         kdTree.insert(p1);
         kdTree.insert(p2);
         kdTree.insert(p3);
         kdTree.insert(p4);
         kdTree.insert(p5);
 
-        System.out.println("Is the Kd Tree empty?: " + kdTree.isEmpty());
-        System.out.println("KdTree size: " + kdTree.size());
+        System.out.println("Is the Kd Tree empty? (false): " + kdTree.isEmpty());
+        System.out.println("KdTree size (5): " + kdTree.size());
+        System.out.println("Does the Kd-Tree contain p0? (false): " + kdTree.contains(p0));
+        System.out.println("Does the Kd-Tree contain p1? (true): " + kdTree.contains(p1));
+
+
     }
 }
