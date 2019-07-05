@@ -26,6 +26,11 @@ public class KdTree {
         return size == 0;
     }
 
+    // Return the number of points in the `Kd-Tree`.
+    public int size() {
+        return size;
+    }
+
     public static void main(String[] args) {
 
     }
