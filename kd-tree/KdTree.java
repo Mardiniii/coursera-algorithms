@@ -8,10 +8,15 @@
 import edu.princeton.cs.algs4.Point2D;
 
 public class KdTree {
+    private static final boolean VERTICAL   = true;
+    private static final boolean HORIZONTAL = false;
+
+    private int size;
+    private Node root;
 
     private static class Node {
         Point2D point;
-        boolean topBottom;
+        boolean isVertical;
         Node left;
         Node right;
     }
