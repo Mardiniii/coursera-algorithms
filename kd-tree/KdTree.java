@@ -16,6 +16,8 @@ public class KdTree {
 
     private int size;
     private Node root;
+    private Point2D nearestPoint;
+    private Point2D comparisonPoint;
     private Queue<Point2D> pointsInRange;
 
     private static class Node {
@@ -156,6 +158,21 @@ public class KdTree {
         return pointsInRange;
     }
 
+    // Returns the nearest neighbor in the tree to point p or `null` if the tree
+    // is empty.
+    public Point2D nearest(Point2D p) {
+        if (p == null) {
+            throw new IllegalArgumentException("Argument cannot be null!");
+        }
+
+        nearestPoint = null;
+        comparisonPoint = p;
+
+        searchNearestPoint(root);
+
+        return nearestPoint;
+    }
+
     private void drawNode(Node n, RectHV rect) {
         StdDraw.setPenRadius(0.010);
         n.point.draw();
@@ -217,6 +234,58 @@ public class KdTree {
         }
     }
 
+    private void searchNearestPoint(Node node) {
+        if (node == null) return;
+
+        if (nearestPoint == null) {
+            nearestPoint = node.point;
+        }
+
+        if (node.division == VERTICAL) {
+            if (comparisonPoint.distanceTo(nearestPoint) > comparisonPoint.distanceTo(node.point)) {
+                nearestPoint = node.point;
+
+                if (node.point.x() >= comparisonPoint.x()) {
+                    searchNearestPoint(node.left);
+                    searchNearestPoint(node.right);
+                } else {
+                    searchNearestPoint(node.right);
+                    searchNearestPoint(node.left);
+                }
+            } else {
+                if (node.point.x() > comparisonPoint.x()) {
+                    searchNearestPoint(node.left);
+                } else if (node.point.x() < comparisonPoint.x()) {
+                    searchNearestPoint(node.right);
+                } else {
+                    searchNearestPoint(node.left);
+                    searchNearestPoint(node.right);
+                }
+            }
+        } else {
+            if (comparisonPoint.distanceTo(nearestPoint) > comparisonPoint.distanceTo(node.point)) {
+                nearestPoint = node.point;
+
+                if (node.point.y() >= comparisonPoint.y()) {
+                    searchNearestPoint(node.left);
+                    searchNearestPoint(node.right);
+                } else {
+                    searchNearestPoint(node.right);
+                    searchNearestPoint(node.left);
+                }
+            } else {
+                if (node.point.y() > comparisonPoint.y()) {
+                    searchNearestPoint(node.left);
+                } else if (node.point.y() < comparisonPoint.y()) {
+                    searchNearestPoint(node.right);
+                } else {
+                    searchNearestPoint(node.left);
+                    searchNearestPoint(node.right);
+                }
+            }
+        }
+    }
+
     public static void main(String[] args) {
         Point2D p0 = new Point2D(0, 0);
         Point2D p1 = new Point2D(0.2, 0.2);
@@ -224,6 +293,9 @@ public class KdTree {
         Point2D p3 = new Point2D(0.3, 0.2);
         Point2D p4 = new Point2D(0.5, 0.5);
         Point2D p5 = new Point2D(1.0, 1.0);
+        Point2D p6 = new Point2D(0.6, 0.6);
+        Point2D p7 = new Point2D(0.4, 0.5);
+        Point2D p8 = new Point2D(0.15, 0.15);
 
         // Point2D p0 = new Point2D(0, 0);
         // Point2D p1 = new Point2D(0.7, 0.2);
@@ -256,6 +328,10 @@ public class KdTree {
             System.out.println(p);
         }
 
-        kdTree.draw();
+        System.out.println("Nearest point to (0.6, 0.6): " + kdTree.nearest(p6));
+        System.out.println("Nearest point to (0.4, 0.5): " + kdTree.nearest(p7));
+        System.out.println("Nearest point to (0.4, 0.5): " + kdTree.nearest(p8));
+
+        // kdTree.draw();
     }
 }
