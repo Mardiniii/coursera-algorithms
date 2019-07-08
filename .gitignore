@@ -24,3 +24,6 @@ puzzle/*
 kd-tree/*
 !kd-tree/PointSET.java
 !kd-tree/KdTree.java
+!kd-tree/KdTreeVisualizer.java
+!kd-tree/RangeSearchVisualizer.java
+!kd-tree/NearestNeighborVisualizer.java
