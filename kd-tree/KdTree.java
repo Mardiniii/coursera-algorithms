@@ -16,6 +16,7 @@ public class KdTree {
 
     private int size;
     private Node root;
+    private Queue<Point2D> pointsInRange;
 
     private static class Node {
         Point2D point;
@@ -141,6 +142,20 @@ public class KdTree {
         }
     }
 
+    // Returns an `Iterable<Point2D>` with all the points that are inside the
+    // rectangle (or on the boundary).
+    public Iterable<Point2D> range(RectHV rect) {
+        if (rect == null) {
+            throw new IllegalArgumentException("Argument cannot be null!");
+        }
+
+        pointsInRange = new Queue<Point2D>();
+
+        searchPointsInRange(root, rect);
+
+        return pointsInRange;
+    }
+
     private void drawNode(Node n, RectHV rect) {
         StdDraw.setPenRadius(0.010);
         n.point.draw();
@@ -165,13 +180,39 @@ public class KdTree {
             StdDraw.setPenColor();
 
             if (n.left != null) {
-                System.out.println(n.left.point.toString());
                 drawNode(n.left, new RectHV(rect.xmin(), rect.ymin(), rect.xmax(), n.point.y()));
             }
 
             if (n.right != null) {
-                System.out.println(n.right.point.toString());
                 drawNode(n.right, new RectHV(rect.xmin(), n.point.y(), rect.xmax(), rect.ymax()));
+            }
+        }
+    }
+
+    private void searchPointsInRange(Node node, RectHV rect) {
+        if (node == null) return;
+
+        if (node.division == VERTICAL) {
+            if (node.point.x() > rect.xmax()) {
+                searchPointsInRange(node.left, rect);
+            } else if (node.point.x() < rect.xmin()) {
+                searchPointsInRange(node.right, rect);
+            } else {
+                searchPointsInRange(node.left, rect);
+                searchPointsInRange(node.right, rect);
+
+                if (rect.contains(node.point)) pointsInRange.enqueue(node.point);
+            }
+        } else {
+            if (node.point.y() > rect.ymax()) {
+                searchPointsInRange(node.left, rect);
+            } else if (node.point.y() < rect.ymin()) {
+                searchPointsInRange(node.right, rect);
+            } else {
+                searchPointsInRange(node.left, rect);
+                searchPointsInRange(node.right, rect);
+
+                if (rect.contains(node.point)) pointsInRange.enqueue(node.point);
             }
         }
     }
@@ -206,6 +247,14 @@ public class KdTree {
         System.out.println("KdTree size (5): " + kdTree.size());
         System.out.println("Does the Kd-Tree contain p0? (false): " + kdTree.contains(p0));
         System.out.println("Does the Kd-Tree contain p1? (true): " + kdTree.contains(p1));
+
+        RectHV rect = new RectHV(0.1, 0.1, 0.4, 0.3);
+        System.out.println("Search range in rectangle: " + rect);
+        Iterable<Point2D> range = kdTree.range(rect);
+
+        for (Point2D p : range) {
+            System.out.println(p);
+        }
 
         kdTree.draw();
     }
