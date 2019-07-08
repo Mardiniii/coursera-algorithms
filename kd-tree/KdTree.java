@@ -6,6 +6,9 @@
  **************************************************************************** */
 
 import edu.princeton.cs.algs4.Point2D;
+import edu.princeton.cs.algs4.Queue;
+import edu.princeton.cs.algs4.RectHV;
+import edu.princeton.cs.algs4.StdDraw;
 
 public class KdTree {
     private static final boolean VERTICAL   = true;
@@ -131,6 +134,48 @@ public class KdTree {
         return false;
     }
 
+    // Draw all points and divisions lines to standard draw.
+    public void draw() {
+        if (root != null) {
+            drawNode(root, new RectHV(0, 0, 1, 1));
+        }
+    }
+
+    private void drawNode(Node n, RectHV rect) {
+        StdDraw.setPenRadius(0.010);
+        n.point.draw();
+
+        StdDraw.setPenRadius();
+
+        if (n.division == VERTICAL) {
+            StdDraw.setPenColor(StdDraw.RED);
+            StdDraw.line(n.point.x(), rect.ymin(), n.point.x(), rect.ymax());
+            StdDraw.setPenColor();
+
+            if (n.left != null) {
+                drawNode(n.left, new RectHV(rect.xmin(), rect.ymin(), n.point.x(), rect.ymax()));
+            }
+
+            if (n.right != null) {
+                drawNode(n.right, new RectHV(n.point.x(), rect.ymin(), rect.xmax(), rect.ymax()));
+            }
+        } else {
+            StdDraw.setPenColor(StdDraw.BLUE);
+            StdDraw.line(rect.xmin(), n.point.y(), rect.xmax(), n.point.y());
+            StdDraw.setPenColor();
+
+            if (n.left != null) {
+                System.out.println(n.left.point.toString());
+                drawNode(n.left, new RectHV(rect.xmin(), rect.ymin(), rect.xmax(), n.point.y()));
+            }
+
+            if (n.right != null) {
+                System.out.println(n.right.point.toString());
+                drawNode(n.right, new RectHV(rect.xmin(), n.point.y(), rect.xmax(), rect.ymax()));
+            }
+        }
+    }
+
     public static void main(String[] args) {
         Point2D p0 = new Point2D(0, 0);
         Point2D p1 = new Point2D(0.2, 0.2);
@@ -138,6 +183,13 @@ public class KdTree {
         Point2D p3 = new Point2D(0.3, 0.2);
         Point2D p4 = new Point2D(0.5, 0.5);
         Point2D p5 = new Point2D(1.0, 1.0);
+
+        // Point2D p0 = new Point2D(0, 0);
+        // Point2D p1 = new Point2D(0.7, 0.2);
+        // Point2D p2 = new Point2D(0.5, 0.4);
+        // Point2D p3 = new Point2D(0.2, 0.3);
+        // Point2D p4 = new Point2D(0.4, 0.7);
+        // Point2D p5 = new Point2D(0.9, 0.6);
 
         KdTree kdTree = new KdTree();
 
@@ -155,6 +207,6 @@ public class KdTree {
         System.out.println("Does the Kd-Tree contain p0? (false): " + kdTree.contains(p0));
         System.out.println("Does the Kd-Tree contain p1? (true): " + kdTree.contains(p1));
 
-
+        kdTree.draw();
     }
 }
