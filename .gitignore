@@ -1,29 +1,29 @@
 # Do not ignore Percolation files
-percolation/*
-!percolation/Percolation.java
-!percolation/PercolationStats.java
+algorithms-part-1/percolation/*
+!algorithms-part-1/percolation/Percolation.java
+!algorithms-part-1/percolation/PercolationStats.java
 
 # Do not ignore Queues files
-queues/*
-!queues/Deque.java
-!queues/RandomizedQueue.java
-!queues/Permutation.javai
+algorithms-part-1/queues/*
+!algorithms-part-1/queues/Deque.java
+!algorithms-part-1/queues/RandomizedQueue.java
+!algorithms-part-1/queues/Permutation.java
 
 # Do not ignore Collinear files
-collinear/*
-!collinear/Point.java
-!collinear/BruteCollinearPoints.java
-!collinear/FastCollinearPoints.java
+algorithms-part-1/collinear/*
+!algorithms-part-1/collinear/Point.java
+!algorithms-part-1/collinear/BruteCollinearPoints.java
+!algorithms-part-1/collinear/FastCollinearPoints.java
 
 # Do not ignore Puzzle files
-puzzle/*
-!puzzle/Board.java
-!puzzle/Solver.java
+algorithms-part-1/puzzle/*
+!algorithms-part-1/puzzle/Board.java
+!algorithms-part-1/puzzle/Solver.java
 
 # Do not ignore Kd-Tree files
-kd-tree/*
-!kd-tree/PointSET.java
-!kd-tree/KdTree.java
-!kd-tree/KdTreeVisualizer.java
-!kd-tree/RangeSearchVisualizer.java
-!kd-tree/NearestNeighborVisualizer.java
+algorithms-part-1/kd-tree/*
+!algorithms-part-1/kd-tree/PointSET.java
+!algorithms-part-1/kd-tree/KdTree.java
+!algorithms-part-1/kd-tree/KdTreeVisualizer.java
+!algorithms-part-1/kd-tree/RangeSearchVisualizer.java
+!algorithms-part-1/kd-tree/NearestNeighborVisualizer.java
