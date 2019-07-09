@@ -12,7 +12,7 @@ import edu.princeton.cs.algs4.SET;
 import java.util.Iterator;
 
 public class PointSET {
-    private SET<Point2D> tree;
+    private final SET<Point2D> tree;
 
     // Initialize and empty `PointSET data structure.
     public PointSET() {
@@ -44,6 +44,8 @@ public class PointSET {
         if (p == null) {
             throw new IllegalArgumentException("Argument cannot be null!");
         }
+
+        if (tree.isEmpty()) return false;
 
         return tree.contains(p);
     }
@@ -83,16 +85,18 @@ public class PointSET {
             throw new IllegalArgumentException("Argument cannot be null!");
         }
 
+        if (tree.isEmpty()) return null;
+
         Iterator<Point2D> i = tree.iterator();
 
         Point2D currentPoint = i.next();
         Point2D nearest = currentPoint;
 
-        double minimumDistance = p.distanceTo(currentPoint);
+        double minimumDistance = p.distanceSquaredTo(currentPoint);
 
         while (i.hasNext()) {
             currentPoint = i.next();
-            double currentDistance = p.distanceTo(currentPoint);
+            double currentDistance = p.distanceSquaredTo(currentPoint);
 
             if (currentDistance < minimumDistance) {
                 minimumDistance = currentDistance;
@@ -111,7 +115,7 @@ public class PointSET {
         Point2D p4 = new Point2D(0.5, 0.5);
         Point2D p5 = new Point2D(1.0, 1.0);
 
-        System.out.println(p1.distanceTo(p2));
+        System.out.println(p1.distanceSquaredTo(p2));
 
         PointSET pointSet = new PointSET();
         pointSet.insert(p1);
